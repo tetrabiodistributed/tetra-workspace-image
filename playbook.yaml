@@ -52,6 +52,20 @@
 # addtional plays
 
 -
+  # add default user to dialout group
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+  - name: Add default user to dialout group
+    user:
+      name: default
+      shell: /bin/bash
+      groups: "dialout"
+      state: present
+      remove: yes
+
+-
   # install Arduino 1.8.19
   hosts: localhost
   connection: local
