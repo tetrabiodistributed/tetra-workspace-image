@@ -50,6 +50,27 @@
 # Add additional plays here (remember the list entry -)
 # Be sure to use the same hosts and connection entries above
 # addtional plays
+
+-
+  # install Arduino 1.8.19
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+  - name: Download Arduino 1.8.19 tarball
+    shell: wget https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz -O /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+  - name: unarchive Arduino tarball
+    unarchive:
+      src: /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+      dest: /opt
+      remote_src: yes
+  - name: install Arduino
+    shell:
+      cmd: /opt/arduino-1.8.19/install.sh
+      executable: /bin/bash
+  - name: Delete Arduino tarball
+    shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+
 -
   # install chrome
   hosts: localhost
