@@ -86,6 +86,22 @@
     shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
 
 -
+  # install AVR-GCC toolchain for arduino
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+  - name: Download AVR-GCC toolchain for arduino tarball
+    shell: wget http://downloads.arduino.cc/tools/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2 -O /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+  - name: Unarchive AVR-GCC toolchain for arduino
+    unarchive:
+      src: /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+      dest: /opt/arduino-1.8.19/hardware/tools
+      remote_src: yes
+  - name: Delete AVR-GCC toolchain for arduino tarball
+    shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+
+-
   # install chrome
   hosts: localhost
   connection: local
