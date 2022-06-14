@@ -1,8 +1,8 @@
-# Mach 30 Python Workspace (Kasm Image)
+# Tetra Workspace (Kasm Image)
 
 ## Introduction
 
-This repo provides a workspace for Mach 30 volunteers to work on Python projects based on the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
+This repo provides a workspace for Tetra Bio Distributed volunteers to work on open-source medical hardware projects based on the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
 
 - git cli
 - [Keychain](https://www.funtoo.org/Keychain)
@@ -15,10 +15,11 @@ This repo provides a workspace for Mach 30 volunteers to work on Python projects
     - [Pint](https://pint.readthedocs.io/en/stable/)
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- Arduino v1.8.19
 
 ## How to Use this Repo
 
-1. Clone this repo, giving the new repo a descriptive name for the workspace image to be created
+1. Clone this repo
 1. Run `docker-compose pull` to download the image or run `docker-compose build` to build the workspace image 
 
 ## Using the image locally
