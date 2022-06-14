@@ -17,7 +17,7 @@ services:
         source: ./kasm_user
         target: /home/kasm-user
 #    devices:
-#      - "/dev/ttyACM1"
+#      - "/dev/ttyUSB0"
     security_opt:
       - seccomp=unconfined
 ...
