@@ -52,6 +52,28 @@
 # addtional plays
 
 -
+  # install Hugo v0.101.0 (extended)
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+  - name: Download Hugo v0.101.0 (extended) tarball
+    shell: wget https://github.com/gohugoio/hugo/releases/download/v0.101.0/hugo_extended_0.101.0_Linux-64bit.tar.gz -O /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
+  - name: Create temp directory for extracting Hugo tarball
+    shell: mkdir -p /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+  - name: Extract Hugo tarball
+    unarchive:
+      src: /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
+      dest: /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+      remote_src: yes
+  - name: Delete Hugo tarball
+    shell: rm /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
+  - name: Install Hugo binary in /usr/local/bin
+    shell: mv /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit/hugo /usr/local/bin
+  - name: Delete Hugo temp directory
+    shell: rm -rf /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+
+-
   # add default user to dialout group
   hosts: localhost
   connection: local
