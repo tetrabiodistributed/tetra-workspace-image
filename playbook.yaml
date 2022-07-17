@@ -52,6 +52,17 @@
 # addtional plays
 
 -
+  # install Cura
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+  - name: Apt install Cura
+    apt:
+      name: cura
+      update_cache: yes
+
+-
   # install NodeJs
   hosts: localhost
   connection: local
