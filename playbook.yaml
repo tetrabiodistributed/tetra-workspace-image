@@ -206,13 +206,17 @@
     apt:
       name: install-info
       update_cache: yes
-  - name: Download git (v2.36.1) tarball
-    shell: wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.36.1.tar.gz -O /home/kasm-default-profile/git-2.36.1.tar.gz
   - name: Extract git source files
     unarchive:
-      src: /home/kasm-default-profile/git-2.36.1.tar.gz
-      dest: /home/kasm-default-profile/
+      src: /home/kasm-default-profile/install_files/git-2.38.1.tar.gz
+      dest: /home/kasm-default-profile/install_files/
       remote_src: yes
+      creates: /home/kasm-default-profile/install_files/git-2.38.1/README.md
+  - name: Build git
+    shell:
+      cmd: make configure && ./configure --prefix=/usr && make > /tmp/git_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/git-2.38.1
+      executable: /bin/bash
 
 -
   # install Python packages with pip
