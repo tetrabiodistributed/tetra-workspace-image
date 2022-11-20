@@ -217,6 +217,10 @@
       cmd: make configure && ./configure --prefix=/usr && make > /tmp/git_build_output.txt 2>&1 && make install
       chdir: /home/kasm-default-profile/install_files/git-2.38.1
       executable: /bin/bash
+  - name: Install GitHub Desktop v3.1.1
+    apt:
+      deb: /home/kasm-default-profile/install_files/GitHubDesktop-linux-3.1.1-linux1.deb
+      update_cache: yes
 
 -
   # install Python packages with pip
