@@ -52,6 +52,182 @@
 # addtional plays
 
 -
+  # Install build-essential
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_plantuml
+  - install_avr_build_tools
+
+  tasks:
+  - name: Install build-essential
+    apt:
+      name: build-essential
+      update_cache: yes
+
+-
+  # Install zlib
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_plantuml
+
+  tasks:
+  - name: Extract zlib v1.2.13 source from tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
+  - name: Build zlib v1.2.13
+    shell:
+      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+      executable: /bin/bash
+
+-
+  # Install OpenSSL
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_avr_build_tools
+    - install_doctools
+    - install_utilities
+
+  tasks:
+  - name: Install libssl-dev
+    apt:
+      name: libssl-dev
+      update_cache: yes
+
+-
+  # Install doctools
+  hosts: localhost
+  connection: local
+  tags: install_doctools
+
+  vars:
+    pandoc_version: "2.18"
+    texlive_version: "2019.20200218-1"
+    texlive_version_expected: "pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian)"
+
+  tasks:
+  - name: Extract ruby source tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/ruby-3.1.2.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/ruby-3.1.2
+  - name: Build ruby
+    shell:
+      cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/ruby-3.1.2
+      executable: /bin/bash
+  - name: Join parts of jabref tarball
+    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+  - name: install jabref from deb
+    apt:
+      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+      update_cache: yes
+  - name: install asciidoctor-bibtex as ruby gem
+    shell: gem install asciidoctor-bibtex
+  - name: install asciidoctor-diagram as ruby gem
+    shell: gem install asciidoctor-diagram
+  - name: install asciidoctor-pdf as ruby gem
+    shell: gem install asciidoctor-pdf
+  - name: install TeX Live
+    apt:
+      name: "texlive-full={{ texlive_version }}"
+      update_cache: yes
+    # https://mikefarah.gitbook.io/yq/
+  - name: Install yq
+    copy:
+      src: /home/kasm-default-profile/install_files/yq
+      dest: /usr/bin/yq
+      remote_src: yes
+      owner: root
+      group: root
+      mode: '0755'
+  - name: Install pandoc-citeproc
+    apt:
+      name: pandoc-citeproc
+      update_cache: yes
+  - name: Get pandoc version
+    shell: pandoc --version | grep -m 1 -i pandoc | sed 's/[[:alpha:]|(|[:space:]]//g'
+    register: installed_pandoc_version
+  - name: Get TeX Live version
+    shell: latex --version | grep -i Tex -m 1
+    register: installed_texlive_version
+  - name: Display pandoc and texlive versions
+    debug:
+      msg: "pandoc = {{ installed_pandoc_version.stdout }} | texlive = {{ installed_texlive_version.stdout }}"
+  - name: Test pandoc version
+    fail:
+      msg: "Pandoc Version Error: Expected {{ pandoc_version }} | Found {{ installed_pandoc_version.stdout }}"
+    when: installed_pandoc_version.stdout != pandoc_version
+  - name: Test texlive version
+    fail:
+      msg: "TeX Live Version Error: Expected {{ texlive_version_expected }} | Found {{ installed_texlive_version.stdout }}"
+    when: installed_texlive_version.stdout != texlive_version_expected
+
+  roles:
+  - role: andrewrothstein.pandoc
+    pandoc_ver: "{{ pandoc_version }}"
+
+-
+  # install PlantUML
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags: install_plantuml
+
+  vars:
+    jdk_version: 2:1.11-72
+    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+
+  tasks:
+  - name: Install JDK
+    apt:
+      name: "default-jdk={{ jdk_version }}"
+      update_cache: yes
+  - name: Get JDK Version
+    shell: java --version | grep -m 1 -i openjdk
+    register: installed_jdk_version
+  - name: Install pre-reqs to build graphviz
+    apt:
+      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+      update_cache: yes
+  - name: Expand source files archive
+    unarchive:
+      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
+      dest: /home/kasm-default-profile/install_files/
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
+  - name: Build graphviz
+    shell:
+      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
+      executable: /bin/bash
+  - name: Get graphviz version
+    shell: dot -V
+    register: installed_graphviz_version
+  - name: install plantuml
+    copy:
+      src: /home/kasm-default-profile/install_files/plantuml.jar
+      dest: /usr/local/bin/plantuml.jar
+      remote_src: yes
+  - name: Display JDK and GraphViz versions
+    debug:
+      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
+  - name: Test Graphviz version
+    fail:
+      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
+    when: installed_graphviz_version.stderr != graphviz_version_expected
+
+-
   # install Cura
   hosts: localhost
   connection: local
@@ -143,6 +319,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_avr_build_tools
+
   tasks:
   - name: Download AVR-GCC toolchain for arduino tarball
     shell: wget http://downloads.arduino.cc/tools/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2 -O /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
@@ -197,10 +376,6 @@
   - name: Install libz-dev
     apt:
       name: libz-dev
-      update_cache: yes
-  - name: Install libssl-dev
-    apt:
-      name: libssl-dev
       update_cache: yes
   - name: Install install-info
     apt:
