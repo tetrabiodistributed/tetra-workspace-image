@@ -1,5 +1,7 @@
 # Tetra Workspace (Kasm Image)
 
+![Screenshot from 2022-11-28 17-33-05](https://user-images.githubusercontent.com/14095576/204409415-9cab4f7a-dfa1-456e-9fae-d512e7614429.png)
+
 ## Introduction
 
 This repo provides a workspace for Tetra Bio Distributed volunteers to work on open-source medical hardware projects based on the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
