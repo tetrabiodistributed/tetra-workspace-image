@@ -455,6 +455,7 @@
         - voila
         - pint
         - linkml==1.4.1
+        - jinja2-cli==0.8.2
 
 #  roles:
 #    - role: geerlingguy.pip
