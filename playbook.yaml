@@ -448,6 +448,7 @@
         - notebook
         - voila
         - pint
+        - linkml==1.4.1
 
   roles:
     - role: geerlingguy.pip
