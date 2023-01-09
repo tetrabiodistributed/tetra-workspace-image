@@ -3,6 +3,6 @@
 - irixjp.role_example_hello           # https://galaxy.ansible.com/irixjp/role_example_hello
 - andrewrothstein.pandoc              # https://galaxy.ansible.com/andrewrothstein/pandoc
 - webarchitect609.google_chrome       # https://galaxy.ansible.com/webarchitect609/google_chrome
-- geerlingguy.pip                     # https://galaxy.ansible.com/geerlingguy/pip
+#- geerlingguy.pip                     # https://galaxy.ansible.com/geerlingguy/pip
 - gantsign.visual-studio-code         # https://galaxy.ansible.com/gantsign/visual-studio-code
 ...
