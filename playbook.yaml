@@ -115,17 +115,10 @@
     texlive_version_expected: "pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian)"
 
   tasks:
-  - name: Extract ruby source tarball
-    unarchive:
-      src: /home/kasm-default-profile/install_files/ruby-3.1.2.tar.gz
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/ruby-3.1.2
-  - name: Build ruby
-    shell:
-      cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/ruby-3.1.2
-      executable: /bin/bash
+  - name: Install Ruby
+    apt:
+      name: ruby-full
+      update_cache: yes
   - name: Join parts of jabref tarball
     shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
   - name: install jabref from deb
