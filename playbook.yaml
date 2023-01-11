@@ -192,7 +192,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_plantuml
+  tags:
+  - install_plantuml
+  - install_doctools
 
   vars:
     jdk_version: 2:1.11-72
