@@ -138,6 +138,8 @@
     shell: gem install asciidoctor-diagram
   - name: install asciidoctor-pdf as ruby gem
     shell: gem install asciidoctor-pdf
+  - name: install asciidoctor-revealjs as ruby gem
+    shell: gem install asciidoctor-revealjs
   - name: install TeX Live
     apt:
       name: "texlive-full={{ texlive_version }}"
