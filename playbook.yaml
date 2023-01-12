@@ -255,6 +255,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+  - install_doctools
+
   tasks:
   - name: Download node source setup
     get_url:
