@@ -378,6 +378,10 @@
     - install_fusion360
 
   tasks:
+  - name: Install Fusion 360 dependencies
+    apt:
+      name: software-properties-common, yad
+      update_cache: yes
   - name: Create Fusion 360 installation directory
     file:
       path: /home/kasm-default-profile/.fusion360/bin/
