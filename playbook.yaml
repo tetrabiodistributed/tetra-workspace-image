@@ -370,6 +370,25 @@
     shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
 
 -
+  # install Autodesk Fusion 360
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_fusion360
+
+  tasks:
+  - name: Create Fusion 360 installation directory
+    file:
+      path: /home/kasm-default-profile/.fusion360/bin/
+      state: directory
+      mode: '0755'
+  - name: Install Fusion 360 using installer script
+    shell:
+      cmd: /home/kasm-default-profile/install_files/install-autodesk-fusion-360-for-linux.sh
+      executable: /bin/bash
+
+-
   # install AVR-GCC toolchain for arduino
   hosts: localhost
   connection: local
