@@ -142,6 +142,10 @@
     apt:
       name: install-info
       update_cache: yes
+  - name: Install xdg-utils
+    apt:
+      name: xdg-utils
+      update_cache: yes
   - name: Extract git source files
     unarchive:
       src: /home/kasm-default-profile/install_files/git-2.38.1.tar.gz
