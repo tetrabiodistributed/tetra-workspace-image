@@ -108,7 +108,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
+  tags:
+    - install_utilities
+    - install_fusion360
 
   vars:
     git_version: "2.38.1"
