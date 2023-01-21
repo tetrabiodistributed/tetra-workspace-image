@@ -477,6 +477,108 @@
     shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
 
 -
+  # install Autodesk Fusion 360
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_fusion360
+
+  vars:
+    wine_version: "7.0.1"
+    wineprefix_appdata_roaming_autodesk_dir: "/home/kasm-default-profile/.fusion360/wineprefixes/default/drive_c/users/$USER/AppData/Roaming/Autodesk/Neutron"
+    wineprefix_appdata_local_autodesk_dir: "/home/kasm-default-profile/.fusion360/wineprefixes/default/drive_c/users/$USER/AppData/Local/Autodesk/Neutron"
+    wineprefix_application_autodesk_dir: "/home/kasm-default-profile/.fusion360/wineprefixes/default/drive_c/users/$USER/Application"
+    nmachinespecificoptions_xml: "https://github.com/cryinkfly/Autodesk-Fusion-360-for-Linux/raw/main/files/builds/stable-branch/driver/video/opengl/NMachineSpecificOptions.xml"
+
+  tasks:
+  - name: Add i386 architecture
+    shell:
+      cmd: --add-architecture i386
+      executable: /bin/bash
+  - name: Add repo for wine debian package
+    shell:
+      cmd: apt-add-repository -r 'deb https://dl.winehq.org/wine-builds/ubuntu/ {{ wine_version }} main'
+      executable: /bin/bash
+  - name: Add key for wine
+    shell:
+      cmd: wget -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_{{ wine_version }}//Release.key -O Release.key -O- | apt-key add -
+      executable: /bin/bash
+  - name: Add repo for wine emulator
+    shell:
+      cmd: apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_{{ wine_version }}/ ./'
+      executable: /bin/bash
+  - name: Install compression utilities
+    apt:
+      name: p7zip, p7zip-full, p7zip-rar, winbind, cabextract
+      update_cache: yes
+  - name: Install Wine Staging
+    shell:
+      cmd: apt install --install-recommends winehq-staging
+      executable: /bin/bash
+  - name: Create bin/ directory for Fusion 360
+    shell:
+      cmd: mkdir -p /.fusion360/bin
+      executable: /bin/bash
+  - name: Create downloads/ directory for Fusion 360
+    shell:
+      cmd: mkdir -p /.fusion360/downloads
+      executable: /bin/bash
+  - name: Download Winetricks
+    shell:
+      cmd: wget -N -P /.fusion360/bin https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+      executable: /bin/bash
+  - name: Change Winetricks mode to executable
+    shell:
+      cmd: chmod +x /.fusion360/bin/winetricks
+      executable: /bin/bash
+  - name: Download Fusion 360 Installer EXE
+    shell:
+      cmd: wget https://dl.appstreaming.autodesk.com/production/installers/Fusion%20360%20Admin%20Install.exe -O /.fusion360/downloads/Fusion360installer.exe
+      executable: /bin/bash
+  - name: Configure Sandbox-Mode
+    shell:
+      cmd: WINEPREFIX=/.fusion360/wineprefixes/default sh /home/kasm-default-profile/.fusion360/bin/winetricks -q sandbox
+      executable: /bin/bash
+  - name: Configure Winetricks
+    shell:
+      cmd: WINEPREFIX=/.fusion360/wineprefixes/default sh /home/kasm-default-profile/.fusion360/bin/winetricks -q atmlib gdiplus corefonts cjkfonts dotnet452 msxml4 msxml6 vcrun2017 fontsmooth=rgb winhttp win10
+      executable: /bin/bash
+  - name: Copy Fusion 360 Installer EXE to /.fusion360/wineprefixes/default/drive_c/users/$USER/Downloads
+    copy:
+      src: /.fusion360/downloads/Fusion360installer.exe
+      dest: /.fusion360/wineprefixes/default/drive_c/users/$USER/Downloads
+      remote_src: yes
+  - name: Run Fusion 360 Installer EXE from wine
+    shell:
+      cmd: WINEPREFIX=/.fusion360/wineprefixes/default wine /home/kasm-default-profile/.fusion360/wineprefixes/default/drive_c/users/$USER/Downloads/Fusion360installer.exe
+      executable: /bin/bash
+  - name: Create directory, wineprefix_appdata_roaming_autodesk_dir, for OpenGL
+    shell:
+      cmd: mkdir -p {{ wineprefix_appdata_roaming_autodesk_dir }}
+      executable: /bin/bash
+  - name: Download NMachineSpecificOptions.xml for OpenGL to wineprefix_appdata_roaming_autodesk_dir
+    shell:
+      cmd: wget -N -P {{ wineprefix_appdata_roaming_autodesk_dir }} {{ nmachinespecificoptions_xml }}
+      executable: /bin/bash
+  - name: Create directory, wineprefix_appdata_local_autodesk_dir, for OpenGL
+    shell:
+      cmd: mkdir -p {{ wineprefix_appdata_local_autodesk_dir }}
+      executable: /bin/bash
+  - name: Download NMachineSpecificOptions.xml for OpenGL to wineprefix_appdata_local_autodesk_dir
+    shell:
+      cmd: wget -N -P {{ wineprefix_appdata_local_autodesk_dir }} {{ nmachinespecificoptions_xml }}
+      executable: /bin/bash
+  - name: Create directory, wineprefix_application_autodesk_dir, for OpenGL
+    shell:
+      cmd: mkdir -p {{ wineprefix_application_autodesk_dir }}
+      executable: /bin/bash
+  - name: Download NMachineSpecificOptions.xml for OpenGL to wineprefix_appdata_local_autodesk_dir
+    shell:
+      cmd: wget -N -P {{ wineprefix_application_autodesk_dir }} {{ nmachinespecificoptions_xml }}
+      executable: /bin/bash
+
+-
   # install chrome
   hosts: localhost
   connection: local
