@@ -460,6 +460,18 @@
     shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
 
 -
+  # install firefox
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_firefox
+    - install_fusion360
+
+  roles:
+    - role: do1jlr.install_firefox
+
+-
   # install Autodesk Fusion 360
   hosts: localhost
   connection: local
@@ -500,16 +512,6 @@
       remote_src: yes
   - name: Delete AVR-GCC toolchain for arduino tarball
     shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-
--
-  # install firefox
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tags: install_firefox
-
-  roles:
-    - role: do1jlr.install_firefox
 
 -
   # install Python packages with pip
