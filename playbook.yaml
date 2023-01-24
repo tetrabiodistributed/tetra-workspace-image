@@ -389,13 +389,14 @@
     shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
 
 -
-  # install chrome
+  # install firefox
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags: install_firefox
 
   roles:
-    - role: webarchitect609.google_chrome
+    - role: do1jlr.install_firefox
 
 -
   # install keychain, git, and @capsulecorplab .vimrc and .gitconfig

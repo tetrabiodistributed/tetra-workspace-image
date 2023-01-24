@@ -8,7 +8,7 @@ This repo provides a workspace for Tetra Bio Distributed volunteers to work on o
 
 - git cli
 - [Keychain](https://www.funtoo.org/Keychain)
-- Chrome
+- Firefox
 - Python 3.8.x (part of the image template) with the following packages (not part of the image template)
     - pip
     - [JupyterLab](https://jupyter.org/)
