@@ -413,6 +413,11 @@
           signon.rememberSignons: false
           datareporting.healthreport.uploadEnabled: false
 
+  pre_tasks:
+  - name: Update apt packages
+    apt:
+      update_cache: yes
+
   roles:
     - role: staticdev.firefox
 
