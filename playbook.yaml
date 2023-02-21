@@ -522,8 +522,8 @@
   tags: install_kicad
 
   tasks:
-  - name: Add PPA repository for KiCad 6.0.11
-    shell: add-apt-repository ppa:kicad/kicad-6.0-releases
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
   - name: install KiCad with Apt
     apt:
       name: kicad
