@@ -487,6 +487,19 @@
       dest: /home/kasm-default-profile/
 
 -
+  # install FreeCAD
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags: install_freecad
+
+  tasks:
+  - name: Apt install FreeCAD
+    apt:
+      name: freecad
+      update_cache: yes
+
+-
   # install Python packages with pip
   hosts: localhost
   connection: local
