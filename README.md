@@ -18,6 +18,8 @@ This repo provides a workspace for Tetra Bio Distributed volunteers to work on o
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - Arduino v1.8.19
+- 3D Slicers
+    - [PrusaSlicer](https://www.prusa3d.com/page/prusaslicer_424/) 2.5.1
 
 ## How to Use this Repo
 
