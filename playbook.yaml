@@ -502,10 +502,20 @@
   tags: install_freecad
 
   tasks:
-  - name: Apt install FreeCAD
-    apt:
-      name: freecad
-      update_cache: yes
+  - name: Join parts of FreeCAD v0.20.2 tarball
+    shell: cat /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz.part* > /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz
+  - name: Create build directory for FreeCAD 0.20.2
+    shell: mkdir -p /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+  - name: Configure Makefile for FreeCAD v0.20.2 using CMake
+    shell:
+      cmd: cmake ..
+      chdir: /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+      executable: /bin/bash
+  - name: Build FreeCAD v0.20.2
+    shell:
+      cmd: make -j$(nproc --ignore=2) > /tmp/freecad_build_output.txt 2>&1
+      chdir: /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+      executable: /bin/bash
 
 -
   # install Python packages with pip
