@@ -112,6 +112,18 @@
   tags: install_freecad
 
   tasks:
+  - name: Install gcc-arm-linux-gnueabihf with Apt
+    apt:
+      name: gcc-arm-linux-gnueabihf
+      update_cache: yes
+  - name: Install g++-arm-linux-gnueabihf with Apt
+    apt:
+      name: g++-arm-linux-gnueabihf
+      update_cache: yes
+  - name: Install gdb-multiarch with Apt
+    apt:
+      name: gdb-multiarch
+      update_cache: yes
   - name: Extract cmake source files
     unarchive:
       src: /home/kasm-default-profile/install_files/cmake-3.23.1.tar.gz
