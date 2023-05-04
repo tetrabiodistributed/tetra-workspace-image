@@ -88,6 +88,23 @@
       executable: /bin/bash
 
 -
+  # Install OpenSSL
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_avr_build_tools
+    - install_doctools
+    - install_utilities
+    - install_freecad
+
+  tasks:
+  - name: Install libssl-dev
+    apt:
+      name: libssl-dev
+      update_cache: yes
+
+-
   # install CMake
   hosts: localhost
   connection: local
@@ -106,22 +123,6 @@
       cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
       chdir: /home/kasm-default-profile/install_files/cmake-3.23.1
       executable: /bin/bash
-
--
-  # Install OpenSSL
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tags:
-    - install_avr_build_tools
-    - install_doctools
-    - install_utilities
-
-  tasks:
-  - name: Install libssl-dev
-    apt:
-      name: libssl-dev
-      update_cache: yes
 
 -
   # Install doctools
