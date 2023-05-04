@@ -525,17 +525,23 @@
   tasks:
   - name: Join parts of FreeCAD v0.20.2 tarball
     shell: cat /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz.part* > /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz
+  - name: Extract FreeCAD v0.20.2 tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/LICENSE
   - name: Create build directory for FreeCAD 0.20.2
-    shell: mkdir -p /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+    shell: mkdir -p /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
       cmd: cmake ..
-      chdir: /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+      chdir: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
       executable: /bin/bash
   - name: Build FreeCAD v0.20.2
     shell:
       cmd: make -j$(nproc --ignore=2) > /tmp/freecad_build_output.txt 2>&1
-      chdir: /home/kasm-default-profile/install_files/freecad-0.20.2/freecad-build
+      chdir: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
       executable: /bin/bash
 
 -
