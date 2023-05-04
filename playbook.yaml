@@ -88,6 +88,26 @@
       executable: /bin/bash
 
 -
+  # install CMake
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags: install_freecad
+
+  tasks:
+  - name: Extract cmake source files
+    unarchive:
+      src: /home/kasm-default-profile/install_files/cmake-3.23.1.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/cmake-3.23.1/README
+  - name: Build cmake
+    shell:
+      cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/cmake-3.23.1
+      executable: /bin/bash
+
+-
   # Install OpenSSL
   hosts: localhost
   connection: local
