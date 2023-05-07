@@ -139,6 +139,10 @@
     apt:
       name: python3-dev
       update_cache: yes
+  - name: Apt install libxerces-c-dev (for configuring Makefiles with CMake)
+    apt:
+      name: libxerces-c-dev
+      update_cache: yes
 
 -
   # Install doctools
