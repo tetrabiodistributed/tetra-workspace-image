@@ -135,6 +135,10 @@
       cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
       chdir: /home/kasm-default-profile/install_files/cmake-3.23.1
       executable: /bin/bash
+  - name: Apt install python3-dev (for configuring Makefiles with CMake)
+    apt:
+      name: python3-dev
+      update_cache: yes
 
 -
   # Install doctools
