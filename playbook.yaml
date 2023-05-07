@@ -553,6 +553,10 @@
       creates: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/LICENSE
   - name: Create build directory for FreeCAD 0.20.2
     shell: mkdir -p /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
+  - name: Install OpenCascade (for running CMake configuration) with Apt
+    apt:
+      name: xfonts-scalable, libocct-data-exchange-dev, libocct-draw-dev, libocct-foundation-dev, libocct-modeling-algorithms-dev, libocct-modeling-data-dev, libocct-ocaf-dev, libocct-visualization-dev
+      update_cache: yes
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
       cmd: cmake ..
