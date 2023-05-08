@@ -576,6 +576,10 @@
       cmd: cmake .. -GNinja
       chdir: /home/kasm-default-profile/install_files/VTK-9.2.6/build
       executable: /bin/bash
+  - name: Install libmedc-dev with Apt
+    apt:
+      name: libmedc-dev
+      update_cache: yes
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
       cmd: cmake .. -DVTK_DIR=/home/kasm-default-profile/install_files/VTK-9.2.6/build
