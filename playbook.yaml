@@ -557,6 +557,25 @@
     apt:
       name: xfonts-scalable, libocct-data-exchange-dev, libocct-draw-dev, libocct-foundation-dev, libocct-modeling-algorithms-dev, libocct-modeling-data-dev, libocct-ocaf-dev, libocct-visualization-dev
       update_cache: yes
+  - name: Join parts of VTK 9.2.6 source tarball
+    shell: cat /home/kasm-default-profile/install_files/VTK-9.2.6.tar.gz.part* > /home/kasm-default-profile/install_files/VTK-9.2.6.tar.gz
+  - name: Extract VTK 9.2.6 source tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/VTK-9.2.6.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/VTK-9.2.6/README.md
+  - name: Install VTK dependencies with Apt
+    apt:
+      name: mesa-common-dev, mesa-utils, freeglut3-dev, ninja-build
+      update_cache: yes
+  - name: Create build directory for VTK
+    shell: mkdir -p /home/kasm-default-profile/install_files/VTK-9.2.6/build
+  - name: Build VTK with CMake
+    shell:
+      cmd: cmake .. -GNinja
+      chdir: /home/kasm-default-profile/install_files/VTK-9.2.6/build
+      executable: /bin/bash
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
       cmd: cmake ..
