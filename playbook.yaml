@@ -580,6 +580,10 @@
     apt:
       name: libmedc-dev
       update_cache: yes
+  - name: Install libboost-all-dev with Apt
+    apt:
+      name: libboost-all-dev
+      update_cache: yes
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
       cmd: cmake .. -DVTK_DIR=/home/kasm-default-profile/install_files/VTK-9.2.6/build
