@@ -135,14 +135,6 @@
       cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
       chdir: /home/kasm-default-profile/install_files/cmake-3.23.1
       executable: /bin/bash
-  - name: Apt install python3-dev (for configuring Makefiles with CMake)
-    apt:
-      name: python3-dev
-      update_cache: yes
-  - name: Apt install libxerces-c-dev (for configuring Makefiles with CMake)
-    apt:
-      name: libxerces-c-dev
-      update_cache: yes
 
 -
   # Install doctools
@@ -576,25 +568,17 @@
       cmd: cmake .. -GNinja
       chdir: /home/kasm-default-profile/install_files/VTK-9.2.6/build
       executable: /bin/bash
-  - name: Install libmedc-dev with Apt
-    apt:
-      name: libmedc-dev
-      update_cache: yes
   - name: Install libboost-all-dev with Apt
     apt:
       name: libboost-all-dev
-      update_cache: yes
-  - name: Install libeigen3-dev with Apt
-    apt:
-      name: libeigen3-dev
       update_cache: yes
   - name: Install qt5-default with Apt
     apt:
       name: qt5-default
       update_cache: yes
-  - name: Install libqt5xmlpatterns5-dev with Apt
+  - name: Install Python 3 and Qt5 dependencies with Apt
     apt:
-      name: libqt5xmlpatterns5-dev
+      name: cmake, cmake-gui, libboost-date-time-dev, libboost-dev, libboost-filesystem-dev, libboost-graph-dev, libboost-iostreams-dev, libboost-program-options-dev, libboost-python-dev, libboost-regex-dev, libboost-serialization-dev, libboost-thread-dev, libcoin-dev, libeigen3-dev, libgts-bin, libgts-dev, libkdtree++-dev, libmedc-dev, libocct-data-exchange-dev, libocct-ocaf-dev, libocct-visualization-dev, libopencv-dev, libproj-dev, libpyside2-dev, libqt5opengl5-dev, libqt5svg5-dev, qtwebengine5-dev, libqt5x11extras5-dev, libqt5xmlpatterns5-dev, libshiboken2-dev, libspnav-dev, libvtk7-dev, libx11-dev, libxerces-c-dev, libzipios++-dev, occt-draw, pyside2-tools, python3-dev, python3-matplotlib, python3-packaging, python3-pivy, python3-ply, python3-pyside2.qtcore, python3-pyside2.qtgui, python3-pyside2.qtsvg, python3-pyside2.qtwidgets, python3-pyside2.qtnetwork, python3-pyside2.qtwebengine, python3-pyside2.qtwebenginecore, python3-pyside2.qtwebenginewidgets, python3-pyside2.qtwebchannel, python3-markdown, python3-git, python3-pyside2uic, qtbase5-dev, qttools5-dev, swig
       update_cache: yes
   - name: Configure Makefile for FreeCAD v0.20.2 using CMake
     shell:
