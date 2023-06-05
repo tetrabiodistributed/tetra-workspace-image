@@ -59,6 +59,7 @@
   - install_doctools
   - install_plantuml
   - install_avr_build_tools
+  - install_freecad
 
   tasks:
   - name: Install build-essential
