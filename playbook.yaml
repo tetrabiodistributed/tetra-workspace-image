@@ -601,7 +601,7 @@
       executable: /bin/bash
   - name: Build FreeCAD v0.20.2
     shell:
-      cmd: make -j$(nproc --ignore=2) > /tmp/freecad_build_output.txt 2>&1
+      cmd: make -j$(nproc --ignore=2)
       chdir: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
       executable: /bin/bash
 
