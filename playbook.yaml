@@ -569,7 +569,7 @@
     shell: mkdir -p /home/kasm-default-profile/install_files/VTK-9.2.6/build
   - name: Build VTK with CMake
     shell:
-      cmd: cmake .. -GNinja
+      cmd: cmake .. -GNinja -DCMAKE_CXX_COMPILER=/usr/bin/mpic++
       chdir: /home/kasm-default-profile/install_files/VTK-9.2.6/build
       executable: /bin/bash
   - name: Install libboost-all-dev with Apt
