@@ -111,8 +111,8 @@
 
   vars:
     pandoc_version: "2.18"
-    texlive_version: "2019.20200218-1"
-    texlive_version_expected: "pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian)"
+    texlive_version: "2021.20220204-1"
+    texlive_version_expected: "pdfTeX 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian)"
     asciidoctor_version: 2.0.17
     asciidoctor_version_expected: "{{ asciidoctor_version }}[.]"
 
@@ -197,7 +197,7 @@
   - install_doctools
 
   vars:
-    jdk_version: 2:1.11-72
+    jdk_version: 2:1.11-72build2
     graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
 
   tasks:
@@ -417,7 +417,7 @@
     git_version: "2.38.1"
     git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
     keychain_version: "2.8.5"
-    keychain_version_to_install: "{{ keychain_version }}-1"
+    keychain_version_to_install: "{{ keychain_version }}-2"
     keychain_version_expected: "{{ keychain_version }}.."
 
   tasks:
@@ -577,7 +577,7 @@
   - name: Add dev user
     user:
       name: dev
-      uid: 1001
+      uid: 1002
 
 -
   # install the remainder of the tools
