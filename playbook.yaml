@@ -363,19 +363,18 @@
   connection: local
   gather_facts: yes
   tasks:
-  - name: Download Arduino 1.8.19 tarball
-    shell: wget https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz -O /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+  - name: Join parts of Arduino tarball
+    shell: cat /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz
   - name: unarchive Arduino tarball
     unarchive:
-      src: /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+      src: /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz
       dest: /opt
       remote_src: yes
+      creates: /opt/arduino-1.8.19/install.sh
   - name: install Arduino
     shell:
       cmd: /opt/arduino-1.8.19/install.sh
       executable: /bin/bash
-  - name: Delete Arduino tarball
-    shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
 
 -
   # install AVR-GCC toolchain for arduino
