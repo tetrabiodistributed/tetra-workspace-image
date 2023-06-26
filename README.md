@@ -4,22 +4,44 @@
 
 ## Introduction
 
-This repo provides a workspace for Tetra Bio Distributed volunteers to work on open-source medical hardware projects based on the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
+This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on the [KASM Ubuntu Jammy Image](https://hub.docker.com/r/kasmweb/core-ubuntu-jammy) for Tetra Bio Distributed's medical/PPE open-source hardware (OSHW) development.  The workspace is configured with the following software:
 
-- git cli
-- [Keychain](https://www.funtoo.org/Keychain)
+- Node JS Tools
+    - nodejs v16.14.0
+    - npm v8.3.1 (included with nodejs)
+    - npx v8.3.1 (included with nodejs)
+    - yarn v1.22.11
+- Utilities
+    - [git 2.38.1](https://git-scm.com/)
+    - [Keychain](https://www.funtoo.org/Keychain)
+    - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Firefox
-- Python 3.8.x (part of the image template) with the following packages (not part of the image template)
+- Python 3.10 (part of the image template) with the following packages (not part of the image template)
     - pip
     - [JupyterLab](https://jupyter.org/)
     - [Jupyter Notebook](https://jupyter.org/)
     - [Voilà](https://voila.readthedocs.io/en/stable/index.html)
     - [Pint](https://pint.readthedocs.io/en/stable/)
+    - [LinkML](https://linkml.io/linkml/)
+    - [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
+- Artifact Generators
+    - [Pandoc](https://pandoc.org/) v2.18
+    - [TeX Live](https://www.tug.org/texlive/) v2022 to enable PDF support in Pandoc
+    - [yq](https://mikefarah.gitbook.io/yq/) v4.20.2
+    - [AsciiDoctor](https://asciidoctor.org/) v2.0.17 with PlantUML and PDF support
+    - [PlantUML](https://plantuml.com/)
+        - JDK v11
+        - Graphviz 2.50 (built from source)
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- Arduino v1.8.19
-- 3D Slicers
-    - [PrusaSlicer](https://www.prusa3d.com/page/prusaslicer_424/) 2.5.1
+    - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
+- Knowledge Capture Tools
+    - [JabRef](https://www.jabref.org/) v5.5.6
+- OSHW Design Tools
+    - [Arduino 1.8.19](https://wiki-content.arduino.cc/en/software)
+    - [KiCAD 7.0.5](https://www.kicad.org/)
+    - [FreeCAD 0.19](https://www.freecad.org/)
+    - [PrusaSlicer 2.5.1](https://www.prusa3d.com/page/prusaslicer_424/)
 
 ## How to Use this Repo
 
