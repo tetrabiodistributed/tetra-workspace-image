@@ -367,6 +367,7 @@
 
   vars:
     arduino_version: "1.8.19"
+    arduino_cli_version: "0.33.0"
 
   tasks:
   - name: Join parts of Arduino tarball
@@ -386,20 +387,36 @@
     shell:
       cmd: /opt/arduino-{{ arduino_version }}/install.sh
       executable: /bin/bash
+  - name: Create directory for Arduino CLI tarball
+    shell: mkdir -p /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
+  - name: unarchive Arduino CLI tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}_Linux_64bit.tar.gz
+      dest: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/License.txt
   - name: install Arduino CLI to /usr/local/bin
-    shell:
-      cmd: curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/local/bin sh
-      executable: /bin/bash
+    shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
   - name: Get Arduino version
     shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
     register: installed_arduino_version
+  - name: Get Arduino CLI version
+    shell: arduino-cli version | sed 's/arduino-cli/\n/g' | sed 's/Commit:/\n/g' | grep Version | sed 's/[[:alpha:]|[:space:]]//g' | sed 's/://g'
+    register: installed_arduino_cli_version
   - name: Display Arduino version
     debug:
       msg: "Arduino version = {{ installed_arduino_version.stdout }}"
+  - name: Display Arduino CLI version
+    debug:
+      msg: "Arduino CLI version = {{ installed_arduino_cli_version.stdout }}"
   - name: Test Arduino version
     fail:
       msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
     when: installed_arduino_version.stdout != arduino_version
+  - name: Test Arduino CLI version
+    fail:
+      msg: "Arduino CLI Version Error: Expected {{ arduino_cli_version }} | Found {{ installed_arduino_cli_version.stdout }}"
+    when: installed_arduino_cli_version.stdout != arduino_cli_version
 
 -
   # install firefox
