@@ -362,38 +362,44 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_arduino
+
+  vars:
+    arduino_version: "1.8.19"
+
   tasks:
   - name: Join parts of Arduino tarball
-    shell: cat /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz
+    shell: cat /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
   - name: unarchive Arduino tarball
     unarchive:
-      src: /home/kasm-default-profile/install_files/arduino-1.8.19-linux64.tar.xz
+      src: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
       dest: /opt
       remote_src: yes
-      creates: /opt/arduino-1.8.19/install.sh
-  - name: install Arduino
-    shell:
-      cmd: /opt/arduino-1.8.19/install.sh
-      executable: /bin/bash
-
--
-  # install AVR-GCC toolchain for arduino
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tags:
-    - install_avr_build_tools
-
-  tasks:
+      creates: /opt/arduino-{{ arduino_version }}/install.sh
   - name: Download AVR-GCC toolchain for arduino tarball
     shell: wget http://downloads.arduino.cc/tools/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2 -O /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
   - name: Unarchive AVR-GCC toolchain for arduino
     unarchive:
       src: /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-      dest: /opt/arduino-1.8.19/hardware/tools
+      dest: /opt/arduino-{{ arduino_version }}/hardware/tools
       remote_src: yes
   - name: Delete AVR-GCC toolchain for arduino tarball
     shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+  - name: install Arduino
+    shell:
+      cmd: /opt/arduino-{{ arduino_version }}/install.sh
+      executable: /bin/bash
+  - name: Get Arduino version
+    shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
+    register: installed_arduino_version
+  - name: Display Arduino version
+    debug:
+      msg: "Arduino version = {{ installed_arduino_version.stdout }}"
+  - name: Test Arduino version
+    fail:
+      msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
+    when: installed_arduino_version.stdout != arduino_version
 
 -
   # install firefox
