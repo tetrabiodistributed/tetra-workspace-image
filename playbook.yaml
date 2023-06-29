@@ -386,6 +386,10 @@
     shell:
       cmd: /opt/arduino-{{ arduino_version }}/install.sh
       executable: /bin/bash
+  - name: install Arduino CLI to /usr/local/bin
+    shell:
+      cmd: curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/local/bin sh
+      executable: /bin/bash
   - name: Get Arduino version
     shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
     register: installed_arduino_version
