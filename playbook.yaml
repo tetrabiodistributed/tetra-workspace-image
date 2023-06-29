@@ -363,7 +363,7 @@
   connection: local
   gather_facts: yes
   tags:
-    - install_arduino
+    - install_arduino_tools
 
   vars:
     arduino_version: "1.8.19"
