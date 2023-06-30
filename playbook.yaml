@@ -540,7 +540,6 @@
 
   vars:
     freecad_version: "0.20.2"
-    freecad_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
 
   tasks:
   - name: Join parts of FreeCAD v{{ freecad_version }} tarball
