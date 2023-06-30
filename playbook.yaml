@@ -362,39 +362,80 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_arduino_tools
+
+  vars:
+    arduino_version: "1.8.19"
+    arduino_cli_version: "0.33.0"
+    megatinycore_version: "2.6.8"
+
   tasks:
-  - name: Download Arduino 1.8.19 tarball
-    shell: wget https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz -O /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+  - name: Join parts of Arduino tarball
+    shell: cat /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
   - name: unarchive Arduino tarball
     unarchive:
-      src: /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+      src: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
       dest: /opt
+      remote_src: yes
+      creates: /opt/arduino-{{ arduino_version }}/install.sh
+  - name: Unarchive AVR-GCC toolchain for arduino
+    unarchive:
+      src: /home/kasm-default-profile/install_files/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+      dest: /opt/arduino-{{ arduino_version }}/hardware/tools
       remote_src: yes
   - name: install Arduino
     shell:
-      cmd: /opt/arduino-1.8.19/install.sh
+      cmd: /opt/arduino-{{ arduino_version }}/install.sh
       executable: /bin/bash
-  - name: Delete Arduino tarball
-    shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
-
--
-  # install AVR-GCC toolchain for arduino
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tags:
-    - install_avr_build_tools
-
-  tasks:
-  - name: Download AVR-GCC toolchain for arduino tarball
-    shell: wget http://downloads.arduino.cc/tools/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2 -O /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-  - name: Unarchive AVR-GCC toolchain for arduino
+  - name: Create directory for Arduino CLI tarball
+    shell: mkdir -p /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
+  - name: unarchive Arduino CLI tarball
     unarchive:
-      src: /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-      dest: /opt/arduino-1.8.19/hardware/tools
+      src: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}_Linux_64bit.tar.gz
+      dest: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
       remote_src: yes
-  - name: Delete AVR-GCC toolchain for arduino tarball
-    shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+      creates: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/License.txt
+  - name: install Arduino CLI to /usr/local/bin
+    shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
+  - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing megaTinyCore
+    shell: mkdir -p /home /home/kasm-default-profile/.arduino15/
+  - name: install package_drazzy.com_index.json
+    get_url:
+      url: http://drazzy.com/package_drazzy.com_index.json
+      dest: /home/kasm-default-profile/.arduino15/
+  - name: install megatinycore {{ megatinycore_version }} using arduino-cli
+    shell: arduino-cli core install megaTinyCore:megaavr@{{ megatinycore_version }} --additional-urls http://drazzy.com/package_drazzy.com_index.json
+  - name: Get Arduino version
+    shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
+    register: installed_arduino_version
+  - name: Get Arduino CLI version
+    shell: arduino-cli version | sed 's/arduino-cli/\n/g' | sed 's/Commit:/\n/g' | grep Version | sed 's/[[:alpha:]|[:space:]]//g' | sed 's/://g'
+    register: installed_arduino_cli_version
+  - name: Get megaTinyCore version
+    shell: arduino-cli core list | grep megaTinyCore | sed 's/[[:alpha:]]//g' | sed 's/\:\ //g' | awk '{ print $1'}
+    register: installed_megatinycore_version
+  - name: Display Arduino version
+    debug:
+      msg: "Arduino version = {{ installed_arduino_version.stdout }}"
+  - name: Display Arduino CLI version
+    debug:
+      msg: "Arduino CLI version = {{ installed_arduino_cli_version.stdout }}"
+  - name: Display megaTinyCore version
+    debug:
+      msg: "megaTinyCore version = {{ installed_megatinycore_version.stdout }}"
+  - name: Test Arduino version
+    fail:
+      msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
+    when: installed_arduino_version.stdout != arduino_version
+  - name: Test Arduino CLI version
+    fail:
+      msg: "Arduino CLI Version Error: Expected {{ arduino_cli_version }} | Found {{ installed_arduino_cli_version.stdout }}"
+    when: installed_arduino_cli_version.stdout != arduino_cli_version
+  - name: Test megaTinyCore version
+    fail:
+      msg: "megaTinyCore Version Error: Expected {{ megatinycore_version }} | Found {{ installed_megatinycore_version.stdout }}"
+    when: installed_megatinycore_version.stdout != megatinycore_version
 
 -
   # install firefox

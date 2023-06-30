@@ -39,6 +39,8 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - [JabRef](https://www.jabref.org/) v5.5.6
 - OSHW Design Tools
     - [Arduino 1.8.19](https://wiki-content.arduino.cc/en/software)
+        - [Arduino CLI 0.33.0](https://github.com/arduino/arduino-cli)
+        - [megaTinyCore 2.6.8](https://github.com/SpenceKonde/megaTinyCore)
     - [KiCAD 7.0.5](https://www.kicad.org/)
     - [FreeCAD 0.19](https://www.freecad.org/)
     - [PrusaSlicer 2.5.1](https://www.prusa3d.com/page/prusaslicer_424/)
