@@ -398,6 +398,12 @@
       creates: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/License.txt
   - name: install Arduino CLI to /usr/local/bin
     shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
+  - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing megaTinyCore
+    shell: mkdir -p /home /home/kasm-default-profile/.arduino15/
+  - name: install package_drazzy.com_index.json
+    get_url:
+      url: http://drazzy.com/package_drazzy.com_index.json
+      dest: /home/kasm-default-profile/.arduino15/
   - name: install megatinycore {{ megatinycore_version }} using arduino-cli
     shell: arduino-cli core install megaTinyCore:megaavr@{{ megatinycore_version }} --additional-urls http://drazzy.com/package_drazzy.com_index.json
   - name: Get Arduino version
