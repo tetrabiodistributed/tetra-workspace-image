@@ -369,6 +369,7 @@
     arduino_version: "1.8.19"
     arduino_cli_version: "0.33.0"
     megatinycore_version: "2.6.8"
+    arduino_pico_version: "3.3.0"
 
   tasks:
   - name: Join parts of Arduino tarball
@@ -400,12 +401,18 @@
     shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
   - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing megaTinyCore
     shell: mkdir -p /home /home/kasm-default-profile/.arduino15/
-  - name: install package_drazzy.com_index.json
+  - name: install package_drazzy.com_index.json for megaTinyCore
     get_url:
       url: http://drazzy.com/package_drazzy.com_index.json
       dest: /home/kasm-default-profile/.arduino15/
+  - name: install package_rp2040_index.json for QT Py
+    get_url:
+      url: https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json
+      dest: /home/kasm-default-profile/.arduino15/
   - name: install megatinycore {{ megatinycore_version }} using arduino-cli
     shell: arduino-cli core install megaTinyCore:megaavr@{{ megatinycore_version }} --additional-urls http://drazzy.com/package_drazzy.com_index.json
+  - name: install Arduino-Pico {{ arduino_pico_version }} using arduino-cli
+    shell: arduino-cli core install rp2040:rp2040@{{ arduino_pico_version }} --additional-urls https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json
   - name: Get Arduino version
     shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
     register: installed_arduino_version
@@ -413,8 +420,11 @@
     shell: arduino-cli version | sed 's/arduino-cli/\n/g' | sed 's/Commit:/\n/g' | grep Version | sed 's/[[:alpha:]|[:space:]]//g' | sed 's/://g'
     register: installed_arduino_cli_version
   - name: Get megaTinyCore version
-    shell: arduino-cli core list | grep megaTinyCore | sed 's/[[:alpha:]]//g' | sed 's/\:\ //g' | awk '{ print $1'}
+    shell: arduino-cli core list | grep megaTinyCore | awk '{ print $2'}
     register: installed_megatinycore_version
+  - name: Get Arduino-Pico version
+    shell: arduino-cli core list | grep rp2040 | awk '{ print $2'}
+    register: installed_arduino_pico_version
   - name: Display Arduino version
     debug:
       msg: "Arduino version = {{ installed_arduino_version.stdout }}"
@@ -424,6 +434,9 @@
   - name: Display megaTinyCore version
     debug:
       msg: "megaTinyCore version = {{ installed_megatinycore_version.stdout }}"
+  - name: Display Arduino-Pico version
+    debug:
+      msg: "Arduino-Pico version = {{ installed_arduino_pico_version.stdout }}"
   - name: Test Arduino version
     fail:
       msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
@@ -436,6 +449,10 @@
     fail:
       msg: "megaTinyCore Version Error: Expected {{ megatinycore_version }} | Found {{ installed_megatinycore_version.stdout }}"
     when: installed_megatinycore_version.stdout != megatinycore_version
+  - name: Test Arduino-Pico version
+    fail:
+      msg: "Arduino-Pico Version Error: Expected {{ arduino_pico_version }} | Found {{ installed_arduino_pico_version.stdout }}"
+    when: installed_arduino_pico_version.stdout != arduino_pico_version
 
 -
   # install firefox
