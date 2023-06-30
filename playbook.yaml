@@ -538,17 +538,21 @@
   gather_facts: yes
   tags: install_freecad
 
+  vars:
+    freecad_version: "0.20.2"
+    freecad_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
+
   tasks:
-  - name: Join parts of FreeCAD v0.20.2 tarball
-    shell: cat /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz.part* > /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz
-  - name: Extract FreeCAD v0.20.2 tarball
+  - name: Join parts of FreeCAD v{{ freecad_version }} tarball
+    shell: cat /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz.part* > /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
+  - name: Extract FreeCAD v{{ freecad_version }} tarball
     unarchive:
-      src: /home/kasm-default-profile/install_files/freecad-0.20.2.tar.gz
+      src: /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
       dest: /home/kasm-default-profile/install_files
       remote_src: yes
-      creates: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/LICENSE
-  - name: Create build directory for FreeCAD 0.20.2
-    shell: mkdir -p /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
+      creates: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/LICENSE
+  - name: Create build directory for FreeCAD {{ freecad_version }}
+    shell: mkdir -p /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/freecad-build
   - name: Install OpenCascade (for running CMake configuration) with Apt
     apt:
       name: xfonts-scalable, libocct-data-exchange-dev, libocct-draw-dev, libocct-foundation-dev, libocct-modeling-algorithms-dev, libocct-modeling-data-dev, libocct-ocaf-dev, libocct-visualization-dev
@@ -594,15 +598,15 @@
     apt:
       name: cmake, cmake-gui, libboost-date-time-dev, libboost-dev, libboost-filesystem-dev, libboost-graph-dev, libboost-iostreams-dev, libboost-program-options-dev, libboost-python-dev, libboost-regex-dev, libboost-serialization-dev, libboost-thread-dev, libcoin-dev, libeigen3-dev, libgts-bin, libgts-dev, libkdtree++-dev, libmedc-dev, libocct-data-exchange-dev, libocct-ocaf-dev, libocct-visualization-dev, libopencv-dev, libproj-dev, libpyside2-dev, libqt5opengl5-dev, libqt5svg5-dev, qtwebengine5-dev, libqt5x11extras5-dev, libqt5xmlpatterns5-dev, libshiboken2-dev, libspnav-dev, libvtk7-dev, libx11-dev, libxerces-c-dev, libzipios++-dev, occt-draw, pyside2-tools, python3-dev, python3-matplotlib, python3-packaging, python3-pivy, python3-ply, python3-pyside2.qtcore, python3-pyside2.qtgui, python3-pyside2.qtsvg, python3-pyside2.qtwidgets, python3-pyside2.qtnetwork, python3-pyside2.qtwebengine, python3-pyside2.qtwebenginecore, python3-pyside2.qtwebenginewidgets, python3-pyside2.qtwebchannel, python3-markdown, python3-git, qtbase5-dev, qttools5-dev, swig
       update_cache: yes
-  - name: Configure Makefile for FreeCAD v0.20.2 using CMake
+  - name: Configure Makefile for FreeCAD v{{ freecad_version }} using CMake
     shell:
       cmd: cmake .. -DVTK_DIR=/home/kasm-default-profile/install_files/VTK-9.2.6/build
-      chdir: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
+      chdir: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/freecad-build
       executable: /bin/bash
-  - name: Build FreeCAD v0.20.2
+  - name: Build FreeCAD v{{ freecad_version }}
     shell:
       cmd: make -j$(nproc --ignore=2)
-      chdir: /home/kasm-default-profile/install_files/FreeCAD-0.20.2/freecad-build
+      chdir: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/freecad-build
       executable: /bin/bash
 
 -
