@@ -611,7 +611,6 @@
       name:
         - jupyterlab
         - notebook
-        - voila
         - pint
         - jinja2==3.1.2
         - linkml==1.4.1
