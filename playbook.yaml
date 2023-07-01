@@ -559,11 +559,21 @@
   gather_facts: yes
   tags: install_freecad
 
+  vars:
+    freecad_version: "0.20.2"
+    freecad_release_date: "2022-12-27"
+
   tasks:
-  - name: Apt install FreeCAD
-    apt:
-      name: freecad
-      update_cache: yes
+  - name: Download FreeCAD {{ freecad_version }} AppImage
+    shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+  - name: Install FreeCAD {{ freecad_version }}
+    copy:
+      src: /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+      dest: /opt/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+      remote_src: yes
+      owner: root
+      group: root
+      mode: '0755'
 
 -
   # install Python packages with pip
