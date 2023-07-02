@@ -20,7 +20,6 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - pip
     - [JupyterLab](https://jupyter.org/)
     - [Jupyter Notebook](https://jupyter.org/)
-    - [Voilà](https://voila.readthedocs.io/en/stable/index.html)
     - [Pint](https://pint.readthedocs.io/en/stable/)
     - [LinkML](https://linkml.io/linkml/)
     - [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
