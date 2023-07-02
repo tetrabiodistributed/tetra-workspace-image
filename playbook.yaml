@@ -564,6 +564,10 @@
     freecad_release_date: "2022-12-27"
 
   tasks:
+  - name: Install kmod with apt
+    apt:
+      name: kmod
+      update_cache: yes
   - name: Download FreeCAD {{ freecad_version }} AppImage
     shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
   - name: Install FreeCAD {{ freecad_version }}
