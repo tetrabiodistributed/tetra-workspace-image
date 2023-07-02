@@ -568,6 +568,12 @@
     apt:
       name: kmod
       update_cache: yes
+  - name: add universe for installing FUSE 2.x # as per https://github.com/AppImage/AppImageKit/wiki/FUSE#install-fuse
+    shell: add-apt-repository universe
+  - name: Install FUSE 2.x with apt # as per https://github.com/AppImage/AppImageKit/wiki/FUSE#install-fuse and https://docs.appimage.org/user-guide/troubleshooting/fuse.html#setting-up-fuse-2-x-alongside-of-fuse-3-x-on-recent-ubuntu-22-04-debian-and-their-derivatives
+    apt:
+      name: libfuse2
+      update_cache: yes
   - name: Download FreeCAD {{ freecad_version }} AppImage
     shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
   - name: Install FreeCAD {{ freecad_version }}
