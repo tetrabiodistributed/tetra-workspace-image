@@ -400,7 +400,7 @@
       creates: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/License.txt
   - name: install Arduino CLI to /usr/local/bin
     shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
-  - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing megaTinyCore
+  - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing Arduino board libraries
     shell: mkdir -p /home /home/kasm-default-profile/.arduino15/
   - name: install package_drazzy.com_index.json for megaTinyCore
     get_url:
@@ -414,6 +414,8 @@
     shell: arduino-cli core install megaTinyCore:megaavr@{{ megatinycore_version }} --additional-urls http://drazzy.com/package_drazzy.com_index.json
   - name: install Arduino-Pico {{ arduino_pico_version }} using arduino-cli
     shell: arduino-cli core install rp2040:rp2040@{{ arduino_pico_version }} --additional-urls https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json
+  - name: Download Arduino-ESP32 {{ arduino_esp32_version }} package index to /home/kasm-default-profile/.arduino15/
+    shell: wget https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json -O /home/kasm-default-profile/.arduino15/package_esp32_index.json
   - name: install Arduino-ESP32 {{ arduino_esp32_version }} using arduino-cli
     shell: arduino-cli core install esp32:esp32@{{ arduino_esp32_version }} --additional-urls https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json
   - name: Get Arduino version
