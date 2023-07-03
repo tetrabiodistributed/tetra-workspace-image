@@ -650,7 +650,7 @@
       update_cache: yes
       install_recommends: yes
   - name: Get KiCad version
-    shell: kicad version
+    shell: kicad-cli version
     register: installed_kicad_version
   - name: Display KiCad versions
     debug:
