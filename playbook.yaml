@@ -639,7 +639,7 @@
 
   vars:
     kicad_version: "7.0.5"
-    kicad_version_to_install: "{{ kicad_version }}-0ppa1~ubuntu22.04.1"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
 
   tasks:
   - name: Add PPA repository for KiCad 7.0
