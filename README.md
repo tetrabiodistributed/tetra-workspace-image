@@ -12,7 +12,7 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - npx v8.3.1 (included with nodejs)
     - yarn v1.22.11
 - Utilities
-    - [git](https://git-scm.com/) 2.38.1
+    - [git](https://git-scm.com/) 2.41.1
     - [Keychain](https://www.funtoo.org/Keychain)
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Firefox
@@ -42,9 +42,9 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
         - [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) 2.6.8
         - [Arduino Pico](https://github.com/earlephilhower/arduino-pico) 3.3.0
         - [Arduino ESP32](https://github.com/espressif/arduino-esp32) 2.0.9
-    - [KiCAD 7.0.5](https://www.kicad.org/)
-    - [FreeCAD 0.19](https://www.freecad.org/)
-    - [PrusaSlicer 2.5.1](https://www.prusa3d.com/page/prusaslicer_424/)
+    - [KiCAD](https://www.kicad.org/) 7.0.5
+    - [FreeCAD](https://www.freecad.org/) 0.19
+    - [PrusaSlicer](https://www.prusa3d.com/page/prusaslicer_424/) 2.5.1
 
 ## How to Use this Repo
 
