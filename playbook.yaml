@@ -244,6 +244,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_oshw_tools
+
   tasks:
   - name: Join parts of PrusaSlicer tarball
     shell: cat /home/kasm-default-profile/install_files/PrusaSlicer-2.5.2+linux-x64-GTK3-202303231201.tar.bz2.parta* > /home/kasm-default-profile/install_files/PrusaSlicer-2.5.2+linux-x64-GTK3-202303231201.tar.bz2
@@ -368,6 +371,7 @@
   gather_facts: yes
   tags:
     - install_arduino_tools
+    - install_oshw_tools
 
   vars:
     arduino_version: "1.8.19"
@@ -579,7 +583,10 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_freecad
+  tags:
+    - install_freecad
+    - install_oshw_tools
+
 
   tasks:
   - name: Apt install FreeCAD
@@ -619,7 +626,9 @@
   # install KiCad
   hosts: localhost
   connection: local
-  tags: install_kicad
+  tags:
+    - install_kicad
+    - install_oshw_tools
 
   vars:
     kicad_version: "7.0.5"
