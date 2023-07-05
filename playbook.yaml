@@ -382,17 +382,17 @@
   - name: unarchive Arduino tarball
     unarchive:
       src: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
-      dest: /opt
+      dest: /home/kasm-default-profile/install_files
       remote_src: yes
-      creates: /opt/arduino-{{ arduino_version }}/install.sh
+      creates: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}/install.sh
   - name: Unarchive AVR-GCC toolchain for arduino
     unarchive:
       src: /home/kasm-default-profile/install_files/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-      dest: /opt/arduino-{{ arduino_version }}/hardware/tools
+      dest: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}/hardware/tools
       remote_src: yes
   - name: install Arduino
     shell:
-      cmd: /opt/arduino-{{ arduino_version }}/install.sh
+      cmd: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}/install.sh
       executable: /bin/bash
   - name: Create directory for Arduino CLI tarball
     shell: mkdir -p /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
