@@ -323,31 +323,31 @@
     - name: generator-code
       version: "{{ generator_code_version }}"
 
-#-
-#  # install Hugo (extended)
-#  hosts: localhost
-#  connection: local
-#  gather_facts: yes
-#
-#  vars:
-#    hugo_version: "0.101.0"
-#
-#  tasks:
-#  - name: Download Hugo {{ hugo_version }} (extended) tarball
-#    shell: wget https://github.com/gohugoio/hugo/releases/download/v{{ hugo_version }}/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz -O /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
-#  - name: Create temp directory for extracting Hugo tarball
-#    shell: mkdir -p /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
-#  - name: Extract Hugo tarball
-#    unarchive:
-#      src: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
-#      dest: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
-#      remote_src: yes
-#  - name: Delete Hugo tarball
-#    shell: rm /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
-#  - name: Install Hugo binary in /usr/local/bin
-#    shell: mv /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit/hugo /usr/local/bin
-#  - name: Delete Hugo temp directory
-#    shell: rm -rf /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
+-
+  # install Hugo (extended)
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+
+  vars:
+    hugo_version: "0.101.0"
+
+  tasks:
+  - name: Download Hugo {{ hugo_version }} (extended) tarball
+    shell: wget https://github.com/gohugoio/hugo/releases/download/v{{ hugo_version }}/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz -O /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
+  - name: Create temp directory for extracting Hugo tarball
+    shell: mkdir -p /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
+  - name: Extract Hugo tarball
+    unarchive:
+      src: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
+      dest: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
+      remote_src: yes
+  - name: Delete Hugo tarball
+    shell: rm /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
+  - name: Install Hugo binary in /usr/local/bin
+    shell: mv /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit/hugo /usr/local/bin
+  - name: Delete Hugo temp directory
+    shell: rm -rf /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
 
 -
   # add default user to dialout group
