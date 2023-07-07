@@ -354,10 +354,13 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_arduino_tools
+
   tasks:
-  - name: Add default user to dialout group
+  - name: Add kasm-user to dialout group (for flashing binaries with Arduino IDE) as per https://www.shellhacks.com/arduino-dev-ttyacm0-permission-denied/
     user:
-      name: default
+      name: kasm-user
       shell: /bin/bash
       groups: "dialout"
       state: present
