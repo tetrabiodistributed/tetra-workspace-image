@@ -601,6 +601,7 @@
   tags:
     - install_python_tools
     - install_doctools
+    - install_arduino_tools
 
   tasks:
   - name: Update OS to point python to python3
@@ -614,6 +615,7 @@
   - name: Install python packages with pip
     pip:
       name:
+        - pyserial
         - jupyterlab
         - notebook
         - pint
