@@ -23,6 +23,7 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - [Pint](https://pint.readthedocs.io/en/stable/)
     - [LinkML](https://linkml.io/linkml/)
     - [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
+    - [pyserial](https://github.com/pyserial/pyserial)
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
