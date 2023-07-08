@@ -635,7 +635,7 @@
     - install_oshw_tools
 
   vars:
-    kicad_version: "7.0.5"
+    kicad_version: "7.0.6"
     kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
 
   tasks:
