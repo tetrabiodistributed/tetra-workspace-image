@@ -27,8 +27,6 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
-- Knowledge Capture Tools
-    - [JabRef](https://www.jabref.org/) v5.5.6
 - OSHW Design Tools
     - [Arduino](https://wiki-content.arduino.cc/en/software) 1.8.19
         - [Arduino CLI](https://github.com/arduino/arduino-cli) 0.33.0
