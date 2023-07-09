@@ -12,7 +12,7 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - npx v8.3.1 (included with nodejs)
     - yarn v1.22.11
 - Utilities
-    - [git](https://git-scm.com/) 2.41.1
+    - [git](https://git-scm.com/) 2.41.0
     - [Keychain](https://www.funtoo.org/Keychain)
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Firefox
