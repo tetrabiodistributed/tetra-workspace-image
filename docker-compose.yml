@@ -3,7 +3,7 @@ version: "3.7"
 services:
   kasm:
     build: .
-    image: ghcr.io/tetrabiodistributed/tetra-workspace-image:main
+    image: ghcr.io/tetrabiodistributed/tetra-workspace-image:v0.1.0
     ports:
       - "6901:6901"
     environment:
@@ -16,8 +16,8 @@ services:
       - type: bind
         source: ./kasm_user
         target: /home/kasm-user
-#    devices:
-#      - "/dev/ttyUSB0"
+    devices:
+      - "/dev/ttyACM0"
     security_opt:
       - seccomp=unconfined
 ...

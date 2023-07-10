@@ -12,7 +12,7 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - npx v8.3.1 (included with nodejs)
     - yarn v1.22.11
 - Utilities
-    - [git 2.38.1](https://git-scm.com/)
+    - [git](https://git-scm.com/) 2.41.0
     - [Keychain](https://www.funtoo.org/Keychain)
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Firefox
@@ -20,28 +20,22 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
     - pip
     - [JupyterLab](https://jupyter.org/)
     - [Jupyter Notebook](https://jupyter.org/)
-    - [Voilà](https://voila.readthedocs.io/en/stable/index.html)
     - [Pint](https://pint.readthedocs.io/en/stable/)
     - [LinkML](https://linkml.io/linkml/)
     - [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
-- Artifact Generators
-    - [Pandoc](https://pandoc.org/) v2.18
-    - [TeX Live](https://www.tug.org/texlive/) v2022 to enable PDF support in Pandoc
-    - [yq](https://mikefarah.gitbook.io/yq/) v4.20.2
-    - [AsciiDoctor](https://asciidoctor.org/) v2.0.17 with PlantUML and PDF support
-    - [PlantUML](https://plantuml.com/)
-        - JDK v11
-        - Graphviz 2.50 (built from source)
+    - [pyserial](https://github.com/pyserial/pyserial)
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
-- Knowledge Capture Tools
-    - [JabRef](https://www.jabref.org/) v5.5.6
 - OSHW Design Tools
-    - [Arduino 1.8.19](https://wiki-content.arduino.cc/en/software)
-    - [KiCAD 7.0.5](https://www.kicad.org/)
-    - [FreeCAD 0.19](https://www.freecad.org/)
-    - [PrusaSlicer 2.5.1](https://www.prusa3d.com/page/prusaslicer_424/)
+    - [Arduino](https://wiki-content.arduino.cc/en/software) 1.8.19
+        - [Arduino CLI](https://github.com/arduino/arduino-cli) 0.33.0
+        - [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) 2.6.8
+        - [Arduino Pico](https://github.com/earlephilhower/arduino-pico) 3.3.0
+        - [Arduino ESP32](https://github.com/espressif/arduino-esp32) 2.0.9
+    - [KiCAD](https://www.kicad.org/) 7.0.5
+    - [FreeCAD](https://www.freecad.org/) 0.19
+    - [PrusaSlicer](https://www.prusa3d.com/page/prusaslicer_424/) 2.5.1
 
 ## How to Use this Repo
 
