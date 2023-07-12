@@ -496,7 +496,9 @@
     firefox_profiles:
       default:
         extensions:
+          - darkreader
           - ublock-origin
+          - vimium-c
         preferences:
           network.cookie.cookieBehavior: 1
           privacy.donottrackheader.enabled: true
