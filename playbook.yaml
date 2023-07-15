@@ -376,29 +376,28 @@
     - install_oshw_tools
 
   vars:
-    arduino_version: "1.8.19"
+    arduino_version: "2.1.1"
     arduino_cli_version: "0.33.0"
     megatinycore_version: "2.6.8"
     arduino_pico_version: "3.3.0"
     arduino_esp32_version: "2.0.9"
 
   tasks:
-  - name: Join parts of Arduino tarball
-    shell: cat /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
-  - name: unarchive Arduino tarball
+  - name: Install unzip
+    apt:
+      name: unzip
+      update_cache: yes
+  - name: Join parts of Arduino zip file
+    shell: cat /home/kasm-default-profile/install_files/arduino-ide_{{ arduino_version }}_Linux_64bit.zip.part* > /home/kasm-default-profile/install_files/arduino-ide_{{ arduino_version }}_Linux_64bit.zip
+  - name: unarchive Arduino zip file
     unarchive:
-      src: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
+      src: /home/kasm-default-profile/install_files/arduino-ide_{{ arduino_version }}_Linux_64bit.zip
       dest: /opt
       remote_src: yes
-      creates: /opt/arduino-{{ arduino_version }}/install.sh
-  - name: Unarchive AVR-GCC toolchain for arduino
-    unarchive:
-      src: /home/kasm-default-profile/install_files/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-      dest: /opt/arduino-{{ arduino_version }}/hardware/tools
-      remote_src: yes
-  - name: install Arduino
+      creates: /opt/arduino-ide_{{ arduino_version }}_Linux_64bit/LICENSE.electron.txt
+  - name: Create symlink to Arduino IDE in /usr/local/bin
     shell:
-      cmd: /opt/arduino-{{ arduino_version }}/install.sh
+      cmd: ln -sv /opt/arduino-ide_{{ arduino_version }}_Linux_64bit/arduino-ide /usr/local/bin
       executable: /bin/bash
   - name: Create directory for Arduino CLI tarball
     shell: mkdir -p /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
