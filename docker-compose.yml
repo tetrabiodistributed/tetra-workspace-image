@@ -16,8 +16,12 @@ services:
       - type: bind
         source: ./kasm_user
         target: /home/kasm-user
-#    devices:
-#      - "/dev/ttyUSB0"
+    devices:
+      - "/dev/ttyACM0"
+      - "/dev/ttyUSB0"
+    device_cgroup_rules:
+      - "c 188:* rmw"
+    privileged: true
     security_opt:
       - seccomp=unconfined
 ...
