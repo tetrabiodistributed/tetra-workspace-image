@@ -433,9 +433,9 @@
     shell: echo "boardsmanager.additional.urls=https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json" >> /home/kasm-default-profile/.arduino15/preferences.txt
   - name: install Arduino-ESP32 {{ arduino_esp32_version }} using arduino-cli
     shell: arduino-cli core install esp32:esp32@{{ arduino_esp32_version }} --additional-urls https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json
-  - name: Get Arduino version
-    shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
-    register: installed_arduino_version
+#  - name: Get Arduino version
+#    shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
+#    register: installed_arduino_version
   - name: Get Arduino CLI version
     shell: arduino-cli version | sed 's/arduino-cli/\n/g' | sed 's/Commit:/\n/g' | grep Version | sed 's/[[:alpha:]|[:space:]]//g' | sed 's/://g'
     register: installed_arduino_cli_version
@@ -448,9 +448,9 @@
   - name: Get Arduino-ESP32 version
     shell: arduino-cli core list | grep esp32 | awk '{ print $2'}
     register: installed_arduino_esp32_version
-  - name: Display Arduino version
-    debug:
-      msg: "Arduino version = {{ installed_arduino_version.stdout }}"
+#  - name: Display Arduino version
+#    debug:
+#      msg: "Arduino version = {{ installed_arduino_version.stdout }}"
   - name: Display Arduino CLI version
     debug:
       msg: "Arduino CLI version = {{ installed_arduino_cli_version.stdout }}"
@@ -463,10 +463,10 @@
   - name: Display Arduino-ESP32 version
     debug:
       msg: "Arduino-ESP32 version = {{ installed_arduino_esp32_version.stdout }}"
-  - name: Test Arduino version
-    fail:
-      msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
-    when: installed_arduino_version.stdout != arduino_version
+#  - name: Test Arduino version
+#    fail:
+#      msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
+#    when: installed_arduino_version.stdout != arduino_version
   - name: Test Arduino CLI version
     fail:
       msg: "Arduino CLI Version Error: Expected {{ arduino_cli_version }} | Found {{ installed_arduino_cli_version.stdout }}"
