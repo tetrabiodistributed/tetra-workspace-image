@@ -621,8 +621,16 @@
     apt:
       name: libfuse2
       update_cache: yes
+  - name: Download FreeCAD {{ freecad_version }} source tarball
+    shell: wget https://github.com/FreeCAD/FreeCAD/archive/refs/tags/{{ freecad_version }}.tar.gz -O /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
   - name: Download FreeCAD {{ freecad_version }} AppImage
     shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+  - name: Unarchive FreeCAD {{ freecad_version }} source tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
+      dest: /opt
+      remote_src: yes
+      creates: /opt/FreeCAD-{{ freecad_version }}/LICENSE
   - name: Install FreeCAD {{ freecad_version }}
     copy:
       src: /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
@@ -631,6 +639,12 @@
       owner: root
       group: root
       mode: '0755'
+  - name: Create symlink for FreeCAD in /usr/local/bin
+    shell: ln -srv /opt/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage /usr/local/bin/freecad
+  - name: Create local application folder for FreeCAD
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure FreeCAD desktop shortcut
+    shell: echo "[Desktop Entry]\nName=FreeCAD\nGenericName=FreeCAD\nExec=/usr/local/bin/freecad\nIcon=/opt/FreeCAD-{{ freecad_version }}/src/Gui/Icons/freecad-icon-16.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /home/kasm-default-profile/.local/share/applications/freecad.desktop
 
 -
   # install Python packages with pip
