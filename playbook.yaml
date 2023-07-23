@@ -263,10 +263,10 @@
       creates: /opt/{{ prusaslicer_dir }}/bin/prusa-slicer
   - name: Create symlink for prusa-slicer in /usr/local/bin
     shell: ln -srv /opt/{{ prusaslicer_dir }}/bin/prusa-slicer /usr/local/bin/prusa-slicer
-#  - name: Create local application folder for PrusaSlicer
-#    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
-#  - name: Configure PrusaSlicer desktop shortcut
-#    shell: echo "[Desktop Entry]\nName=PrusaSlicer\nGenericName=PrusaSlicer\nExec=/usr/local/bin/prusa-slicer\nIcon=/opt/{{ prusaslicer_dir }}/resources/icons/PrusaSlicer.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /home/kasm-default-profile/.local/share/applications/prusaslicer.desktop
+  - name: Create local application folder for PrusaSlicer
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure PrusaSlicer desktop shortcut
+    shell: echo "[Desktop Entry]\nName=PrusaSlicer\nGenericName=PrusaSlicer\nExec=/usr/local/bin/prusa-slicer\nIcon=/opt/{{ prusaslicer_dir }}/resources/icons/PrusaSlicer.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /home/kasm-default-profile/.local/share/applications/prusaslicer.desktop
   - name: Get prusa-slicer version
     shell: prusa-slicer --help | grep PrusaSlicer- | awk '{ print $1 '}
     register: installed_prusaslicer_version
@@ -649,10 +649,10 @@
       mode: '0755'
   - name: Create symlink for FreeCAD AppImage in /usr/local/bin
     shell: ln -srv /opt/FreeCAD/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage /usr/local/bin/freecad
-#  - name: Create local application folder for FreeCAD
-#    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
-#  - name: Configure FreeCAD desktop shortcut
-#    shell: echo "[Desktop Entry]\nName=FreeCAD\nGenericName=FreeCAD\nExec=/usr/local/bin/freecad\nIcon=/opt/FreeCAD/freecad-icon-16.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /home/kasm-default-profile/.local/share/applications/freecad.desktop
+  - name: Create local application folder for FreeCAD
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure FreeCAD desktop shortcut
+    shell: echo "[Desktop Entry]\nName=FreeCAD\nGenericName=FreeCAD\nExec=/usr/local/bin/freecad\nIcon=/opt/FreeCAD/freecad-icon-16.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /home/kasm-default-profile/.local/share/applications/freecad.desktop
 
 -
   # install Python packages with pip
