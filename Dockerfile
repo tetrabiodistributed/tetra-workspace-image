@@ -12,8 +12,12 @@ WORKDIR $HOME
 ADD install_files $HOME/install_files
 
 # install Ansible per 
-# https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu
-RUN apt update && apt -y install software-properties-common && add-apt-repository --yes --update ppa:ansible/ansible && apt install -y ansible && rm -rf /var/lib/apt/lists/*
+# https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-debian
+RUN echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main" >> /etc/apt/sources.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+RUN apt update
+RUN apt install ansible -y
+RUN rm -rf /var/lib/apt/lists/*
 
 # run Ansible commands
 COPY ./requirements.yaml ./playbook.yaml ./
