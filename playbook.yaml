@@ -561,6 +561,7 @@
   - name: Install git
     apt:
       name: git
+      update_cache: yes
   - name: Install Git Bash Completion
     apt:
       name: bash-completion
