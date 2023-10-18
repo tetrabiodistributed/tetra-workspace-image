@@ -597,6 +597,37 @@
       dest: /home/kasm-default-profile/
 
 -
+  # install KiCad
+  hosts: localhost
+  connection: local
+  tags:
+    - install_kicad
+    - install_oshw_tools
+
+  vars:
+    kicad_version: "7.0.8"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
+
+  tasks:
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
+  - name: install KiCad {{ kicad_version }} with Apt
+    apt:
+      name: kicad={{ kicad_version_to_install }}
+      update_cache: yes
+      install_recommends: yes
+  - name: Get KiCad version
+    shell: kicad-cli version
+    register: installed_kicad_version
+  - name: Display KiCad versions
+    debug:
+      msg: "kicad = {{ installed_kicad_version.stdout }}"
+  - name: Test KiCad version
+    fail:
+      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
+    when: installed_kicad_version.stdout != kicad_version
+
+-
   # install FreeCAD
   hosts: localhost
   connection: local
@@ -682,37 +713,6 @@
         - jinja2==3.1.2
         - linkml==1.4.1
         - jinja2-cli==0.8.2
-
--
-  # install KiCad
-  hosts: localhost
-  connection: local
-  tags:
-    - install_kicad
-    - install_oshw_tools
-
-  vars:
-    kicad_version: "7.0.8"
-    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
-
-  tasks:
-  - name: Add PPA repository for KiCad 7.0
-    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
-  - name: install KiCad {{ kicad_version }} with Apt
-    apt:
-      name: kicad={{ kicad_version_to_install }}
-      update_cache: yes
-      install_recommends: yes
-  - name: Get KiCad version
-    shell: kicad-cli version
-    register: installed_kicad_version
-  - name: Display KiCad versions
-    debug:
-      msg: "kicad = {{ installed_kicad_version.stdout }}"
-  - name: Test KiCad version
-    fail:
-      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
-    when: installed_kicad_version.stdout != kicad_version
 
 #  roles:
 #    - role: geerlingguy.pip
