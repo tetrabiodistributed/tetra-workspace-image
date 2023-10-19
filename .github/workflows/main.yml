@@ -12,6 +12,7 @@ on:
       - '.gitignore'
       - 'LICENSE.md'
       - 'README.md'
+    branches-ignore: [ main ]
   pull_request:
     branches: [ main ]
     paths-ignore:
