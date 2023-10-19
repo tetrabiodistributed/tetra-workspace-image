@@ -59,6 +59,7 @@
   - install_doctools
   - install_plantuml
   - install_avr_build_tools
+  - install_oshw_tools
 
   tasks:
   - name: Install build-essential
@@ -94,6 +95,7 @@
   gather_facts: yes
   tags:
     - install_avr_build_tools
+    - install_oshw_tools
     - install_doctools
     - install_utilities
 
@@ -539,7 +541,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
+  tags:
+  - install_utilities
+  - install_oshw_tools
 
   vars:
     git_version: "2.42.0"
