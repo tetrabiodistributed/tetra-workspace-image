@@ -29,7 +29,7 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
         - [Arduino ESP32](https://github.com/espressif/arduino-esp32) 2.0.9
     - [KiCAD](https://www.kicad.org/) 7.0.8
     - [FreeCAD](https://www.freecad.org/) 0.20.2
-    - [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) 2.6.0
+    - [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) 2.7.0
 
 ## How to Use this Repo
 
