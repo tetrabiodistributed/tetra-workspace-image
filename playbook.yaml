@@ -251,8 +251,8 @@
     - install_prusaslicer
 
   vars:
-    prusaslicer_version: 2.7.0
-    prusaslicer_release_date: 202311231454
+    prusaslicer_version: 2.7.1
+    prusaslicer_release_date: 202312121425
     prusaslicer_dir: "PrusaSlicer-{{ prusaslicer_version }}+linux-x64-GTK3-{{ prusaslicer_release_date }}"
 
   tasks:
