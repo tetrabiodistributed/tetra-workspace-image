@@ -623,8 +623,7 @@
 
 
   vars:
-    freecad_version: "0.20.2"
-    freecad_release_date: "2022-12-27"
+    freecad_version: "0.21.2"
 
   tasks:
   - name: Install kmod with apt
@@ -640,7 +639,7 @@
   - name: Download FreeCAD {{ freecad_version }} source tarball
     shell: wget https://github.com/FreeCAD/FreeCAD/archive/refs/tags/{{ freecad_version }}.tar.gz -O /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
   - name: Download FreeCAD {{ freecad_version }} AppImage
-    shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+    shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD-{{ freecad_version }}-Linux-x86_64.AppImage -O /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}-Linux-x86_64.AppImage
   - name: Unarchive FreeCAD {{ freecad_version }} source tarball
     unarchive:
       src: /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
@@ -656,14 +655,14 @@
       remote_src: yes
   - name: Install FreeCAD {{ freecad_version }}
     copy:
-      src: /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
-      dest: /opt/FreeCAD/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+      src: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}-Linux-x86_64.AppImage
+      dest: /opt/FreeCAD/FreeCAD-{{ freecad_version }}-Linux-x86_64.AppImage
       remote_src: yes
       owner: root
       group: root
       mode: '0755'
   - name: Create symlink for FreeCAD AppImage in /usr/local/bin
-    shell: ln -srv /opt/FreeCAD/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage /usr/local/bin/freecad
+    shell: ln -srv /opt/FreeCAD/FreeCAD-{{ freecad_version }}-Linux-x86_64.AppImage /usr/local/bin/freecad
   - name: Configure FreeCAD desktop shortcut
     shell: echo "[Desktop Entry]\nName=FreeCAD\nGenericName=FreeCAD\nExec=/usr/local/bin/freecad\nIcon=/opt/FreeCAD/freecad-icon-16.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /usr/share/applications/freecad.desktop
 
