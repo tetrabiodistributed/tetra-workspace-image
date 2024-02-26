@@ -6,13 +6,8 @@
 
 This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on the [KASM Ubuntu Jammy Image](https://hub.docker.com/r/kasmweb/core-ubuntu-jammy) for Tetra Bio Distributed's medical/PPE open-source hardware (OSHW) development.  The workspace is configured with the following software:
 
-- Node JS Tools
-    - nodejs v16.14.0
-    - npm v8.3.1 (included with nodejs)
-    - npx v8.3.1 (included with nodejs)
-    - yarn v1.22.11
 - Utilities
-    - [git](https://git-scm.com/) 2.41.0
+    - [git](https://git-scm.com/) 2.42.0
     - [Keychain](https://www.funtoo.org/Keychain)
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Firefox
@@ -30,12 +25,11 @@ This repo provides an Immutable-Infrastructure-as-Code (IIaC) workspace based on
 - OSHW Design Tools
     - [Arduino](https://wiki-content.arduino.cc/en/software) 1.8.19
         - [Arduino CLI](https://github.com/arduino/arduino-cli) 0.33.0
-        - [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) 2.6.8
         - [Arduino Pico](https://github.com/earlephilhower/arduino-pico) 3.3.0
         - [Arduino ESP32](https://github.com/espressif/arduino-esp32) 2.0.9
-    - [KiCAD](https://www.kicad.org/) 7.0.5
+    - [KiCAD](https://www.kicad.org/) 7.0.10
     - [FreeCAD](https://www.freecad.org/) 0.20.2
-    - [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) 2.6.0
+    - [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) 2.7.1
 
 ## How to Use this Repo
 
