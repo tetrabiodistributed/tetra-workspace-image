@@ -666,9 +666,9 @@
   tasks:
   - name: Add PPA repository for KiCad 7.0
     shell: add-apt-repository ppa:kicad/kicad-7.0-releases
-  - name: install KiCad {{ kicad_version }} with Apt
+  - name: install KiCad with Apt
     apt:
-      name: kicad={{ kicad_version_to_install }}
+      name: kicad
       update_cache: yes
       install_recommends: yes
   - name: Get KiCad version
