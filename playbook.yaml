@@ -755,8 +755,19 @@
       users:
         - username: "dev"
           visual_studio_code_extensions:
-            - ms-python.python
             - James-Yu.latex-workshop
+            - waderyan.nodejs-extension-pack
+            - redhat.vscode-yaml
+            - jebbs.plantuml
+            - asciidoctor.asciidoctor-vscode
+            - dendron.dendron
+            - samuelcolvin.jinjahtml
+            - CurlyBrackets.markdown-word-count
+            - ban.spellright
+            - ms-python.python
+            - yzhang.markdown-all-in-one
+            - ms-python.black-formatter
+            - vscjava.vscode-gradle
           visual_studio_code_settings_overwrite: yes
           visual_studio_code_settings: {
             "extensions.ignoreRecommendations": true,
