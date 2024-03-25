@@ -61,6 +61,8 @@
   - install_cross_compile_toolchain
   - install_avr_build_tools
   - install_gs_avr_toolchain
+  - install_plantuml
+  - install_oshw_tools
 
   tasks:
   - name: Install build-essential
@@ -68,213 +70,318 @@
       name: build-essential
       update_cache: yes
 
+#-
+#  # Install zlib
+#  hosts: localhost
+#  connection: local
+#  tags:
+#  - install_doctools
+#  - install_plantuml
+#
+#  tasks:
+#  - name: Extract zlib v1.2.13 source from tarball
+#    unarchive:
+#      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+#      dest: /home/kasm-default-profile/install_files
+#      remote_src: yes
+#      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
+#  - name: Build zlib v1.2.13
+#    shell:
+#      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+#      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+#      executable: /bin/bash
+
 -
-  # Install zlib
+  # Install OpenSSL
   hosts: localhost
   connection: local
+  gather_facts: yes
   tags:
-  - install_doctools
-  - install_generator_plantuml
+    - install_avr_build_tools
+    - install_oshw_tools
+    - install_doctools
+    - install_utilities
 
   tasks:
-  - name: Extract zlib v1.2.13 source from tarball
-    unarchive:
-      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
-  - name: Build zlib v1.2.13
-    shell:
-      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
-      executable: /bin/bash
+  - name: Install libssl-dev
+    apt:
+      name: libssl-dev
+      update_cache: yes
+
+#-
+#  # Install doctools
+#  hosts: localhost
+#  connection: local
+#  tags: install_doctools
+#
+#  vars:
+#    pandoc_version: "2.18"
+#    texlive_version: "2021.20220204-1"
+#    texlive_version_expected: "pdfTeX 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian)"
+#    asciidoctor_version: 2.0.17
+#    asciidoctor_version_expected: "{{ asciidoctor_version }}[.]"
+#
+#  tasks:
+#  - name: Install Ruby
+#    apt:
+#      name: ruby-full
+#      update_cache: yes
+#  - name: Join parts of jabref tarball
+#    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+#  - name: install jabref from deb
+#    apt:
+#      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+#      update_cache: yes
+#  - name: Run gem install for asciidoctor
+#    shell:
+#      cmd: "gem install asciidoctor -v {{ asciidoctor_version }}"
+#  - name: install asciidoctor-bibtex as ruby gem
+#    shell: gem install asciidoctor-bibtex
+#  - name: install asciidoctor-diagram as ruby gem
+#    shell: gem install asciidoctor-diagram
+#  - name: install asciidoctor-pdf as ruby gem
+#    shell: gem install asciidoctor-pdf
+#  - name: install asciidoctor-revealjs as ruby gem
+#    shell: gem install asciidoctor-revealjs
+#  - name: install TeX Live
+#    apt:
+#      name: "texlive-full={{ texlive_version }}"
+#      update_cache: yes
+#    # https://mikefarah.gitbook.io/yq/
+#  - name: Install yq
+#    copy:
+#      src: /home/kasm-default-profile/install_files/yq
+#      dest: /usr/bin/yq
+#      remote_src: yes
+#      owner: root
+#      group: root
+#      mode: '0755'
+#  - name: Install pandoc-citeproc
+#    apt:
+#      name: pandoc-citeproc
+#      update_cache: yes
+#  - name: Get pandoc version
+#    shell: pandoc --version | grep -m 1 -i pandoc | sed 's/[[:alpha:]|(|[:space:]]//g'
+#    register: installed_pandoc_version
+#  - name: Get TeX Live version
+#    shell: latex --version | grep -i Tex -m 1
+#    register: installed_texlive_version
+#  - name: Display pandoc and texlive versions
+#    debug:
+#      msg: "pandoc = {{ installed_pandoc_version.stdout }} | texlive = {{ installed_texlive_version.stdout }}"
+#  - name: Test pandoc version
+#    fail:
+#      msg: "Pandoc Version Error: Expected {{ pandoc_version }} | Found {{ installed_pandoc_version.stdout }}"
+#    when: installed_pandoc_version.stdout != pandoc_version
+#  - name: Test texlive version
+#    fail:
+#      msg: "TeX Live Version Error: Expected {{ texlive_version_expected }} | Found {{ installed_texlive_version.stdout }}"
+#    when: installed_texlive_version.stdout != texlive_version_expected
+#  - name: Get asciidoctor version
+#    shell: asciidoctor --version | grep Asciidoctor | sed 's/[[:alpha:]|(|[:space:]]//g' | sed 's/[*~://]//g'
+#    register: installed_asciidoctor_version
+#  - name: Display asciidoctor version
+#    debug:
+#      msg: "ASCII Doctor = {{ installed_asciidoctor_version.stdout }}"
+#  - name: Test asciidoctor version
+#    fail:
+#      msg: "ASCII Doctor Version Error: Expected {{ asciidoctor_version_expected }} | Found {{ installed_asciidoctor_version.stdout }}"
+#    when: installed_asciidoctor_version.stdout != asciidoctor_version_expected
+#
+#  roles:
+#  - role: andrewrothstein.pandoc
+#    pandoc_ver: "{{ pandoc_version }}"
+
+#-
+#  # install PlantUML
+#  hosts: localhost
+#  connection: local
+#  gather_facts: yes
+#  tags:
+#  - install_plantuml
+#  - install_doctools
+#
+#  vars:
+#    jdk_version: 2:1.11-72build2
+#    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+#
+#  tasks:
+#  - name: Install JDK
+#    apt:
+#      name: "default-jdk={{ jdk_version }}"
+#      update_cache: yes
+#  - name: Get JDK Version
+#    shell: java --version | grep -m 1 -i openjdk
+#    register: installed_jdk_version
+#  - name: Install pre-reqs to build graphviz
+#    apt:
+#      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+#      update_cache: yes
+#  - name: Expand source files archive
+#    unarchive:
+#      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
+#      dest: /home/kasm-default-profile/install_files/
+#      remote_src: yes
+#      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
+#  - name: Build graphviz
+#    shell:
+#      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
+#      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
+#      executable: /bin/bash
+#  - name: Get graphviz version
+#    shell: dot -V
+#    register: installed_graphviz_version
+#  - name: install plantuml
+#    copy:
+#      src: /home/kasm-default-profile/install_files/plantuml.jar
+#      dest: /usr/local/bin/plantuml.jar
+#      remote_src: yes
+#  - name: Display JDK and GraphViz versions
+#    debug:
+#      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
+#  - name: Test Graphviz version
+#    fail:
+#      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
+#    when: installed_graphviz_version.stderr != graphviz_version_expected
 
 -
-  # Install doctools
-  hosts: localhost
-  connection: local
-  tags: install_doctools
-
-  vars:
-    pandoc_version: "2.18"
-    texlive_version: "2019.20200218-1"
-    texlive_version_expected: "pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian)"
-
-  tasks:
-  - name: Extract ruby source tarball
-    unarchive:
-      src: /home/kasm-default-profile/install_files/ruby-3.1.2.tar.gz
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/ruby-3.1.2
-  - name: Build ruby
-    shell:
-      cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/ruby-3.1.2
-      executable: /bin/bash
-  - name: Join parts of jabref tarball
-    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
-  - name: install jabref from deb
-    apt:
-      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
-      update_cache: yes
-  - name: install asciidoctor-bibtex as ruby gem
-    shell: gem install asciidoctor-bibtex
-  - name: install asciidoctor-diagram as ruby gem
-    shell: gem install asciidoctor-diagram
-  - name: install asciidoctor-pdf as ruby gem
-    shell: gem install asciidoctor-pdf
-  - name: install TeX Live
-    apt:
-      name: "texlive-full={{ texlive_version }}"
-      update_cache: yes
-    # https://mikefarah.gitbook.io/yq/
-  - name: Install yq
-    copy:
-      src: /home/kasm-default-profile/install_files/yq
-      dest: /usr/bin/yq
-      remote_src: yes
-      owner: root
-      group: root
-      mode: '0755'
-  - name: Install pandoc-citeproc
-    apt:
-      name: pandoc-citeproc
-      update_cache: yes
-  - name: Get pandoc version
-    shell: pandoc --version | grep -m 1 -i pandoc | sed 's/[[:alpha:]|(|[:space:]]//g'
-    register: installed_pandoc_version
-  - name: Get TeX Live version
-    shell: latex --version | grep -i Tex -m 1
-    register: installed_texlive_version
-  - name: Display pandoc and texlive versions
-    debug:
-      msg: "pandoc = {{ installed_pandoc_version.stdout }} | texlive = {{ installed_texlive_version.stdout }}"
-  - name: Test pandoc version
-    fail:
-      msg: "Pandoc Version Error: Expected {{ pandoc_version }} | Found {{ installed_pandoc_version.stdout }}"
-    when: installed_pandoc_version.stdout != pandoc_version
-  - name: Test texlive version
-    fail:
-      msg: "TeX Live Version Error: Expected {{ texlive_version_expected }} | Found {{ installed_texlive_version.stdout }}"
-    when: installed_texlive_version.stdout != texlive_version_expected
-
-  roles:
-  - role: andrewrothstein.pandoc
-    pandoc_ver: "{{ pandoc_version }}"
-
--
-  # install PlantUML
+  # install PrusaSlicer
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_generator_plantuml
+  tags:
+    - install_oshw_tools
+    - install_prusaslicer
 
   vars:
-    jdk_version: 2:1.11-72
-    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+    prusaslicer_version: 2.7.1
+    prusaslicer_release_date: 202312121425
+    prusaslicer_dir: "PrusaSlicer-{{ prusaslicer_version }}+linux-x64-GTK3-{{ prusaslicer_release_date }}"
 
   tasks:
-  - name: Install JDK
-    apt:
-      name: "default-jdk={{ jdk_version }}"
-      update_cache: yes
-  - name: Get JDK Version
-    shell: java --version | grep -m 1 -i openjdk
-    register: installed_jdk_version
-  - name: Install pre-reqs to build graphviz
-    apt:
-      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
-      update_cache: yes
-  - name: Expand source files archive
+  - name: Join parts of PrusaSlicer tarball
+    shell: cat /home/kasm-default-profile/install_files/{{ prusaslicer_dir }}.tar.bz2.parta* > /home/kasm-default-profile/install_files/{{ prusaslicer_dir }}.tar.bz2
+  - name: Extract PrusaSlicer for 64-bit Linux to /opt
     unarchive:
-      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
-      dest: /home/kasm-default-profile/install_files/
+      src: /home/kasm-default-profile/install_files/{{ prusaslicer_dir }}.tar.bz2
+      dest: /opt
       remote_src: yes
-      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
-  - name: Build graphviz
-    shell:
-      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
-      executable: /bin/bash
-  - name: Get graphviz version
-    shell: dot -V
-    register: installed_graphviz_version
-  - name: install plantuml
-    copy:
-      src: /home/kasm-default-profile/install_files/plantuml.jar
-      dest: /usr/local/bin/plantuml.jar
-      remote_src: yes
-  - name: Display JDK and GraphViz versions
+      creates: /opt/{{ prusaslicer_dir }}/bin/prusa-slicer
+  - name: Create symlink for prusa-slicer in /usr/local/bin
+    shell: ln -srv /opt/{{ prusaslicer_dir }}/bin/prusa-slicer /usr/local/bin/prusa-slicer
+  - name: Configure PrusaSlicer desktop shortcut
+    shell: echo "[Desktop Entry]\nName=PrusaSlicer\nGenericName=PrusaSlicer\nExec=/usr/local/bin/prusa-slicer\nIcon=/opt/{{ prusaslicer_dir }}/resources/icons/PrusaSlicer.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /usr/share/applications/prusaslicer.desktop
+  - name: Get prusa-slicer version
+    shell: prusa-slicer --help | grep PrusaSlicer- | awk '{ print $1 '}
+    register: installed_prusaslicer_version
+  - name: Display prusa-slicer version
     debug:
-      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
-  - name: Test Graphviz version
+      msg: "prusa-slicer = {{ installed_prusaslicer_version.stdout }}"
+  - name: Test prusa-slicer version
     fail:
-      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
-    when: installed_graphviz_version.stderr != graphviz_version_expected
-
--
-  # install Cura
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tasks:
-  - name: Apt install Cura
-    apt:
-      name: cura
-      update_cache: yes
+      msg: "prusa-slicer Error: Expected {{ prusaslicer_dir }} | Found {{ installed_prusaslicer_version.stdout }}"
+    when: installed_prusaslicer_version.stdout != prusaslicer_dir
 
 -
   # install NodeJs
   hosts: localhost
   connection: local
   gather_facts: yes
-  tasks:
-  - name: Download node source setup
-    get_url:
-      url: https://deb.nodesource.com/setup_17.x
-      dest: /root/nodesource_setup.sh
-      mode: 0700
-  - name: Set Node source in apt
-    shell:
-      cmd: /root/nodesource_setup.sh
-      executable: /bin/bash
-  - name: Apt install NodeJS
-    apt:
-      name: nodejs
-      update_cache: yes
+  tags:
+  - install_doctools
+
+  vars:
+    node_version: "16.14.0"
+    v_node_version: "v{{ node_version }}"
+    npm_version: "8.3.1"
+    npx_version: "8.3.1"
+    yarn_version: "1.22.11"
+    yo_version: "4.3.0"
+    generator_code_version: "1.6.7"
+
+  tasks:   # Test Node JS Tools versions
+  - name: Get node version
+    shell: node --version
+    register: installed_node_version
+  - name: Get npm version
+    shell: npm --version
+    register: installed_npm_version
+  - name: Get npx installed version
+    shell: npx --version
+    register: installed_npx_version
+  - name: Get yarn version
+    shell: yarn --version
+    register: installed_yarn_version
+  - name: Display node tool versions
+    debug:
+      msg: "Node = {{ installed_node_version.stdout }} | npm = {{ installed_npm_version.stdout }} | npx = {{ installed_npx_version.stdout }} | yarn = {{ installed_yarn_version.stdout }}"
+  - name: Test node version
+    fail:
+      msg: "NodeJS Version Error: Expected {{ v_node_version }} | Found {{ installed_node_version.stdout }}"
+    when: installed_node_version.stdout != v_node_version
+  - name: Test npm version
+    fail:
+      msg: "NPM Version Error: Expected {{ npm_version }} | Found {{ installed_npm_version.stdout }}"
+    when: installed_npm_version.stdout != npm_version
+  - name: Test npx version
+    fail:
+      msg: "NPX Version Error: Expected {{ npx_version }} | Found {{ installed_npx_version.stdout }}"
+    when: installed_npx_version.stdout != npx_version
+  - name: Test yarn version
+    fail:
+      msg: "Yarn Version Error: Expected {{ yarn_version }} | Found {{ installed_yarn_version.stdout }}"
+    when: installed_yarn_version.stdout != yarn_version
+
+  roles:
+  - role: grzegorznowak.nvm_node
+    nvm_install_script_version: "0.39.1"
+    nvm_node_version: "{{ node_version }}"
+    nvm_install_globally:
+    - name: yarn
+      version: "{{ yarn_version }}"
+    - name: yo
+      version: "{{ yo_version }}"
+    - name: generator-code
+      version: "{{ generator_code_version }}"
 
 -
-  # install Hugo v0.101.0 (extended)
+  # install Hugo (extended)
   hosts: localhost
   connection: local
   gather_facts: yes
+
+  vars:
+    hugo_version: "0.101.0"
+
   tasks:
-  - name: Download Hugo v0.101.0 (extended) tarball
-    shell: wget https://github.com/gohugoio/hugo/releases/download/v0.101.0/hugo_extended_0.101.0_Linux-64bit.tar.gz -O /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
+  - name: Download Hugo {{ hugo_version }} (extended) tarball
+    shell: wget https://github.com/gohugoio/hugo/releases/download/v{{ hugo_version }}/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz -O /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
   - name: Create temp directory for extracting Hugo tarball
-    shell: mkdir -p /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+    shell: mkdir -p /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
   - name: Extract Hugo tarball
     unarchive:
-      src: /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
-      dest: /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+      src: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
+      dest: /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
       remote_src: yes
   - name: Delete Hugo tarball
-    shell: rm /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit.tar.gz
+    shell: rm /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit.tar.gz
   - name: Install Hugo binary in /usr/local/bin
-    shell: mv /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit/hugo /usr/local/bin
+    shell: mv /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit/hugo /usr/local/bin
   - name: Delete Hugo temp directory
-    shell: rm -rf /home/kasm-default-profile/hugo_extended_0.101.0_Linux-64bit
+    shell: rm -rf /home/kasm-default-profile/hugo_extended_{{ hugo_version }}_Linux-64bit
 
 -
   # add default user to dialout group
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_arduino_tools
+
   tasks:
-  - name: Add default user to dialout group
+  - name: Add kasm-user to dialout group (for flashing binaries with Arduino IDE) as per https://www.shellhacks.com/arduino-dev-ttyacm0-permission-denied/
     user:
-      name: default
+      name: kasm-user
       shell: /bin/bash
       groups: "dialout"
       state: present
@@ -285,126 +392,316 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_arduino_tools
+    - install_oshw_tools
+
+  vars:
+    arduino_version: "1.8.19"
+    arduino_cli_version: "0.33.0"
+    arduino_pico_version: "3.3.0"
+    arduino_esp32_version: "2.0.9"
+
   tasks:
-  - name: Download Arduino 1.8.19 tarball
-    shell: wget https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz -O /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+  - name: Join parts of Arduino tarball
+    shell: cat /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz.part* > /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
   - name: unarchive Arduino tarball
     unarchive:
-      src: /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
+      src: /home/kasm-default-profile/install_files/arduino-{{ arduino_version }}-linux64.tar.xz
       dest: /opt
+      remote_src: yes
+      creates: /opt/arduino-{{ arduino_version }}/install.sh
+  - name: Unarchive AVR-GCC toolchain for arduino
+    unarchive:
+      src: /home/kasm-default-profile/install_files/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+      dest: /opt/arduino-{{ arduino_version }}/hardware/tools
       remote_src: yes
   - name: install Arduino
     shell:
-      cmd: /opt/arduino-1.8.19/install.sh
+      cmd: /opt/arduino-{{ arduino_version }}/install.sh
       executable: /bin/bash
-  - name: Delete Arduino tarball
-    shell: rm /home/kasm-default-profile/arduino-1.8.19-linux64.tar.xz
-
--
-  # install AVR-GCC toolchain for arduino
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  tasks:
-  - name: Download AVR-GCC toolchain for arduino tarball
-    shell: wget http://downloads.arduino.cc/tools/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2 -O /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-  - name: Unarchive AVR-GCC toolchain for arduino
+  - name: Create directory for Arduino CLI tarball
+    shell: mkdir -p /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
+  - name: unarchive Arduino CLI tarball
     unarchive:
-      src: /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
-      dest: /opt/arduino-1.8.19/hardware/tools
+      src: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}_Linux_64bit.tar.gz
+      dest: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}
       remote_src: yes
-  - name: Delete AVR-GCC toolchain for arduino tarball
-    shell: rm /home/kasm-default-profile/avr-gcc-7.3.0-atmel3.6.1-arduino7-x86_64-pc-linux-gnu.tar.bz2
+      creates: /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/License.txt
+  - name: install Arduino CLI to /usr/local/bin
+    shell: mv /home/kasm-default-profile/install_files/arduino-cli_{{ arduino_cli_version }}/arduino-cli /usr/local/bin
+  - name: Create arduino workspace directory in /home/kasm-default-profile/.arduino15/ for installing Arduino board libraries
+    shell: mkdir -p /home /home/kasm-default-profile/.arduino15/
+  - name: install package_rp2040_index.json for QT Py
+    get_url:
+      url: https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json
+      dest: /home/kasm-default-profile/.arduino15/
+  - name: install Arduino-Pico {{ arduino_pico_version }} using arduino-cli
+    shell: arduino-cli core install rp2040:rp2040@{{ arduino_pico_version }} --additional-urls https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json
+  - name: Download Arduino-ESP32 {{ arduino_esp32_version }} package index to /home/kasm-default-profile/.arduino15/
+    shell: wget https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json -O /home/kasm-default-profile/.arduino15/package_esp32_index.json
+  - name: Add Arduino-Pico {{ arduino_pico_version }} package index to /home/kasm-default-profile/.arduino15/preferences.txt
+    shell: echo "boardsmanager.additional.urls=https://github.com/earlephilhower/arduino-pico/releases/download/{{ arduino_pico_version }}/package_rp2040_index.json" >> /home/kasm-default-profile/.arduino15/preferences.txt
+  - name: Add Arduino-ESP32 {{ arduino_esp32_version }} package index to /home/kasm-default-profile/.arduino15/preferences.txt
+    shell: echo "boardsmanager.additional.urls=https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json" >> /home/kasm-default-profile/.arduino15/preferences.txt
+  - name: install Arduino-ESP32 {{ arduino_esp32_version }} using arduino-cli
+    shell: arduino-cli core install esp32:esp32@{{ arduino_esp32_version }} --additional-urls https://github.com/espressif/arduino-esp32/releases/download/{{ arduino_esp32_version }}/package_esp32_index.json
+  - name: Get Arduino version
+    shell: arduino --version 2>/dev/null | sed 's/[[:alpha:]\:|(|[:space:]]//g'
+    register: installed_arduino_version
+  - name: Get Arduino CLI version
+    shell: arduino-cli version | sed 's/arduino-cli/\n/g' | sed 's/Commit:/\n/g' | grep Version | sed 's/[[:alpha:]|[:space:]]//g' | sed 's/://g'
+    register: installed_arduino_cli_version
+  - name: Get Arduino-Pico version
+    shell: arduino-cli core list | grep rp2040 | awk '{ print $2'}
+    register: installed_arduino_pico_version
+  - name: Get Arduino-ESP32 version
+    shell: arduino-cli core list | grep esp32 | awk '{ print $2'}
+    register: installed_arduino_esp32_version
+  - name: Display Arduino version
+    debug:
+      msg: "Arduino version = {{ installed_arduino_version.stdout }}"
+  - name: Display Arduino CLI version
+    debug:
+      msg: "Arduino CLI version = {{ installed_arduino_cli_version.stdout }}"
+  - name: Display Arduino-Pico version
+    debug:
+      msg: "Arduino-Pico version = {{ installed_arduino_pico_version.stdout }}"
+  - name: Display Arduino-ESP32 version
+    debug:
+      msg: "Arduino-ESP32 version = {{ installed_arduino_esp32_version.stdout }}"
+  - name: Test Arduino version
+    fail:
+      msg: "Arduino Version Error: Expected {{ arduino_version }} | Found {{ installed_arduino_version.stdout }}"
+    when: installed_arduino_version.stdout != arduino_version
+  - name: Test Arduino CLI version
+    fail:
+      msg: "Arduino CLI Version Error: Expected {{ arduino_cli_version }} | Found {{ installed_arduino_cli_version.stdout }}"
+    when: installed_arduino_cli_version.stdout != arduino_cli_version
+  - name: Test Arduino-Pico version
+    fail:
+      msg: "Arduino-Pico Version Error: Expected {{ arduino_pico_version }} | Found {{ installed_arduino_pico_version.stdout }}"
+    when: installed_arduino_pico_version.stdout != arduino_pico_version
+  - name: Test Arduino-ESP32 version
+    fail:
+      msg: "Arduino-ESP32 Version Error: Expected {{ arduino_esp32_version }} | Found {{ installed_arduino_esp32_version.stdout }}"
+    when: installed_arduino_esp32_version.stdout != arduino_esp32_version
 
 -
-  # install chrome
+  # install firefox
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags: install_firefox
+
+  vars:
+    firefox_profiles:
+      default:
+        extensions:
+          - ublock-origin
+        preferences:
+          network.cookie.cookieBehavior: 1
+          privacy.donottrackheader.enabled: true
+          datareporting.healthreport.uploadEnabled: false
+      secondprofile:
+        extensions:
+          - adblock-plus
+        preferences:
+          privacy.donottrackheader.enabled: false
+          privacy.trackingprotection.enabled: false
+          signon.rememberSignons: false
+          datareporting.healthreport.uploadEnabled: false
+
+  pre_tasks:
+  - name: Update apt packages
+    apt:
+      update_cache: yes
 
   roles:
-    - role: webarchitect609.google_chrome
+    - role: staticdev.firefox
 
 -
   # install keychain, git, and @capsulecorplab .vimrc and .gitconfig
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
+  tags:
+  - install_utilities
+  - install_oshw_tools
 
   vars:
-    git_version: "2.36.1"
-    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
+    git_version: "2.43.0"
+    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu22.04.1"
     keychain_version: "2.8.5"
-    keychain_version_to_install: "{{ keychain_version }}-1"
+    keychain_version_to_install: "{{ keychain_version }}-2"
     keychain_version_expected: "{{ keychain_version }}.."
 
   tasks:
-  - name: Install dh-autoreconf
+  - name: Add git PPA
+    shell: add-apt-repository ppa:git-core/ppa
+  - name: Install git
     apt:
-      name: dh-autoreconf
-      update_cache: yes
-  - name: Install libcurl4-gnutls-dev
+      name: "git={{ git_version_to_install }}"
+  - name: Install Git Bash Completion
     apt:
-      name: libcurl4-gnutls-dev
+      name: bash-completion
       update_cache: yes
-  - name: Install libexpat1-dev
+  - name: Install Keychain
     apt:
-      name: libexpat1-dev
+      name: "keychain={{ keychain_version_to_install }}"
       update_cache: yes
-  - name: Install gettext
+  - name: install ping
     apt:
-      name: gettext
+      name: iputils-ping
       update_cache: yes
-  - name: Install libz-dev
-    apt:
-      name: libz-dev
-      update_cache: yes
-  - name: Install libssl-dev
-    apt:
-      name: libssl-dev
-      update_cache: yes
-  - name: Install install-info
-    apt:
-      name: install-info
-      update_cache: yes
-  - name: Extract git source files
-    unarchive:
-      src: /home/kasm-default-profile/install_files/git-2.38.1.tar.gz
-      dest: /home/kasm-default-profile/install_files/
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/git-2.38.1/README.md
-  - name: Build git
+  - name: Get git version
+    shell: git version | sed 's/[[:alpha:]|(|[:space:]]//g'
+    register: installed_git_version
+  - name: Get keychain version
     shell:
-      cmd: make configure && ./configure --prefix=/usr && make > /tmp/git_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/git-2.38.1
+      cmd: keychain -V 2> >(grep -i keychain) 2> >(sed 's/[[:alpha:]|(|[:space:]]//g') | fgrep '*' | sed 's/[*~://]//g'
       executable: /bin/bash
-  - name: Install GitHub Desktop v3.1.1
+    register: installed_keychain_version
+  - name: Display git and keychain versions
+    debug:
+      msg: "git = {{ installed_git_version.stdout }} | keychain = {{ installed_keychain_version.stdout }}"
+  - name: Test git version
+    fail:
+      msg: "Git Version Error: Expected {{ git_version }} | Found {{ installed_git_version.stdout }}"
+    when: installed_git_version.stdout != git_version
+  - name: Test keychain version
+    fail:
+      msg: "Keychain Version Error: Expected {{ keychain_version_expected }} | Found {{ installed_keychain_version.stdout }}"
+    when: installed_keychain_version.stdout != keychain_version_expected
+  - name: auto-launch keychain in shell, if ssh keys exists
+    shell: echo 'if [ -r ~/.ssh/id_ed25519 ]; then\n    eval `keychain --eval id_ed25519`\nfi' >> /home/kasm-default-profile/.bashrc
+  - name: Install @capsulecorplab .vimrc
+    get_url:
+      url: https://gist.githubusercontent.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739/raw/4a6e6f6ff92b96919be111c9cbb5a4a21ab472d2/.vimrc
+      dest: /home/kasm-default-profile/
+  - name: Install @capsulecorplab .gitconfig
+    get_url:
+      url: https://gist.githubusercontent.com/capsulecorplab/401ba2fe0857a328f2a626adbf078cc6/raw/b89a6234f0d620ff60bcfe37f95de197b8772377/.gitconfig
+      dest: /home/kasm-default-profile/
+
+-
+  # install KiCad
+  hosts: localhost
+  connection: local
+  tags:
+    - install_kicad
+    - install_oshw_tools
+
+  vars:
+    kicad_version: "7.0.10"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
+
+  tasks:
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
+  - name: install KiCad {{ kicad_version }} with Apt
     apt:
-      deb: /home/kasm-default-profile/install_files/GitHubDesktop-linux-3.1.1-linux1.deb
+      name: kicad={{ kicad_version_to_install }}
       update_cache: yes
+      install_recommends: yes
+  - name: Get KiCad version
+    shell: kicad-cli version
+    register: installed_kicad_version
+  - name: Display KiCad versions
+    debug:
+      msg: "kicad = {{ installed_kicad_version.stdout }}"
+  - name: Test KiCad version
+    fail:
+      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
+    when: installed_kicad_version.stdout != kicad_version
+
+-
+  # install FreeCAD
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_freecad
+    - install_oshw_tools
+
+
+  vars:
+    freecad_version: "0.20.2"
+    freecad_release_date: "2022-12-27"
+
+  tasks:
+  - name: Install kmod with apt
+    apt:
+      name: kmod
+      update_cache: yes
+  - name: add universe for installing FUSE 2.x # as per https://github.com/AppImage/AppImageKit/wiki/FUSE#install-fuse
+    shell: add-apt-repository universe
+  - name: Install FUSE 2.x with apt # as per https://github.com/AppImage/AppImageKit/wiki/FUSE#install-fuse and https://docs.appimage.org/user-guide/troubleshooting/fuse.html#setting-up-fuse-2-x-alongside-of-fuse-3-x-on-recent-ubuntu-22-04-debian-and-their-derivatives
+    apt:
+      name: libfuse2
+      update_cache: yes
+  - name: Download FreeCAD {{ freecad_version }} source tarball
+    shell: wget https://github.com/FreeCAD/FreeCAD/archive/refs/tags/{{ freecad_version }}.tar.gz -O /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
+  - name: Download FreeCAD {{ freecad_version }} AppImage
+    shell: wget https://github.com/FreeCAD/FreeCAD/releases/download/{{ freecad_version }}/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage -O /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+  - name: Unarchive FreeCAD {{ freecad_version }} source tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/freecad-{{ freecad_version }}.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/LICENSE
+  - name: Create FreeCAD folder in /opt
+    shell: mkdir -p /opt/FreeCAD
+  - name: Copy FreeCAD icon to FreeCAD directory
+    copy:
+      src: /home/kasm-default-profile/install_files/FreeCAD-{{ freecad_version }}/src/Gui/Icons/freecad-icon-16.png
+      dest: /opt/FreeCAD
+      remote_src: yes
+  - name: Install FreeCAD {{ freecad_version }}
+    copy:
+      src: /home/kasm-default-profile/install_files/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+      dest: /opt/FreeCAD/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage
+      remote_src: yes
+      owner: root
+      group: root
+      mode: '0755'
+  - name: Create symlink for FreeCAD AppImage in /usr/local/bin
+    shell: ln -srv /opt/FreeCAD/FreeCAD_{{ freecad_version }}-{{ freecad_release_date }}-conda-Linux-x86_64-py310.AppImage /usr/local/bin/freecad
+  - name: Configure FreeCAD desktop shortcut
+    shell: echo "[Desktop Entry]\nName=FreeCAD\nGenericName=FreeCAD\nExec=/usr/local/bin/freecad\nIcon=/opt/FreeCAD/freecad-icon-16.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /usr/share/applications/freecad.desktop
 
 -
   # install Python packages with pip
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_python_tools
+    - install_doctools
+    - install_arduino_tools
 
   tasks:
   - name: Update OS to point python to python3
     apt:
       name: python-is-python3
       update_cache: yes
+  - name: Install pip for python3 with Apt
+    apt:
+      name: python3-pip
+      update_cache: yes
   - name: Install python packages with pip
     pip:
       name:
+        - pyserial
         - jupyterlab
         - notebook
-        - voila
         - pint
+        - jinja2==3.1.2
+        - linkml==1.4.1
+        - jinja2-cli==0.8.2
 
-  roles:
-    - role: geerlingguy.pip
+#  roles:
+#    - role: geerlingguy.pip
 
 - 
   # install sudo for the vs-code role below 
@@ -429,7 +726,7 @@
   - name: Add dev user
     user:
       name: dev
-      uid: 1001
+      uid: 1002
 
 -
   # install the remainder of the tools
@@ -443,6 +740,7 @@
         - username: "dev"
           visual_studio_code_extensions:
             - ms-python.python
+            - James-Yu.latex-workshop
           visual_studio_code_settings_overwrite: yes
           visual_studio_code_settings: {
             "extensions.ignoreRecommendations": true,
