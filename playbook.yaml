@@ -623,7 +623,7 @@
 
 
   vars:
-    freecad_version: "0.21.2"
+    freecad_version: "1.0.0"
 
   tasks:
   - name: Install kmod with apt
