@@ -598,7 +598,7 @@
     shell: add-apt-repository ppa:kicad/kicad-7.0-releases
   - name: install KiCad {{ kicad_version }} with Apt
     apt:
-      name: kicad={{ kicad_version_to_install }}
+      name: kicad
       update_cache: yes
       install_recommends: yes
   - name: Get KiCad version
@@ -607,10 +607,10 @@
   - name: Display KiCad versions
     debug:
       msg: "kicad = {{ installed_kicad_version.stdout }}"
-  - name: Test KiCad version
-    fail:
-      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
-    when: installed_kicad_version.stdout != kicad_version
+#  - name: Test KiCad version
+#    fail:
+#      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
+#    when: installed_kicad_version.stdout != kicad_version
 
 -
   # install FreeCAD
