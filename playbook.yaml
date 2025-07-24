@@ -125,6 +125,18 @@
     debug:
       msg: "{{ disk_usage.stdout }}"
 
+-
+  # Install GIMP
+  hosts: localhost
+  connection: local
+  tags:
+  - install_gimp
+
+  tasks:
+  - name: Install GIMP
+    apt:
+      name: gimp
+      update_cache: yes
 
 #-
 #  # Install doctools
