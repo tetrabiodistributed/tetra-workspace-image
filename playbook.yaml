@@ -126,16 +126,20 @@
       msg: "{{ disk_usage.stdout }}"
 
 -
-  # Install GIMP
+  # Install Graphic design tools
   hosts: localhost
   connection: local
   tags:
-  - install_gimp
+  - install_graphic_design_tools
 
   tasks:
   - name: Install GIMP
     apt:
       name: gimp
+      update_cache: yes
+  - name: Install Inkscape
+    apt:
+      name: inkscape
       update_cache: yes
 
 #-
