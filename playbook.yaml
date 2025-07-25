@@ -746,6 +746,19 @@
     debug:
       msg: "{{ disk_usage.stdout }}"
 
+-
+  # install OpenSCAD
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_oshw_tools
+    - install_openscad
+
+  tasks:
+  - name: Install openscad
+    apt:
+      name: openscad
 
 -
   # install FreeCAD
